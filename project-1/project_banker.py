@@ -25,9 +25,23 @@ class ProjectBanker:
     # 2nd attribute of x. Then the return if the loan is paid off to you is amount_of_loan*(1 + rate)^length_of_loan
     # The return if the loan is not paid off is -amount_of_loan.
     def expected_utility(self, x, action):
-        print("Expected utility: Not implemented")
+        amount_of_loan = x['amount']
+        length_of_loan = x['duration']
+        rate = 0.05
+        if action == 1:
+            return amount_of_loan*(1 + rate)^length_of_loan
+
+        return -amount_of_loan
 
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
     def get_best_action(self, x):
-        return np.random.choice(2,1)[0]
+        actions = [0, 1]
+        best_action = -1
+        best_utility = -1
+        for a in actions:
+            utility_a = self.expected_utility(x, a)
+            if utility_a > best_utility:
+                best_action = a
+                best_utility = utility_a
+        return best_action

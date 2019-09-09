@@ -62,6 +62,7 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     return utility
     ### the std is an important measure when considering
     ### the random decision maker
+    ### we can also add boxplots
 
 import numpy as np
 utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=1)
@@ -71,5 +72,3 @@ print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(u
 utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=1)
 # the objective is to increase this number
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
-
-# prediction on test set is missing?
