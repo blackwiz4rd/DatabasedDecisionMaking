@@ -37,8 +37,8 @@ class ProjectBanker:
     # However, you are allowed to deviate from this if you can justify the reason.
     def get_best_action(self, x):
         actions = [0, 1]
-        best_action = -1
-        best_utility = -1
+        best_action = -np.inf
+        best_utility = -np.inf
         for a in actions:
             utility_a = self.expected_utility(x, a)
             if utility_a > best_utility:
