@@ -1,7 +1,7 @@
 import numpy as np
 
 class RandomBanker:
-    
+
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
     # probabilities
@@ -11,7 +11,7 @@ class RandomBanker:
     # set the interest rate
     def set_interest_rate(self, rate):
         self.rate = rate
-        return
+        # return
 
     # Predict the probability of failure for a specific person with data x
     def predict_proba(self, x):

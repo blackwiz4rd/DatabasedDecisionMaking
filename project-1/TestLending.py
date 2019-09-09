@@ -29,9 +29,9 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         # If we don't grant the loan then nothing happens
         if (action==1):
             if (good_loan != 1):
-                utility -= amount
+                utility -= amount # number of credits lost
             else:
-                utility += amount*(pow(1 + interest_rate, duration) - 1)
+                utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
     return utility
 
 
@@ -60,7 +60,7 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
         decision_maker.fit(X_train, y_train)
         utility.append(test_decision_maker(X_test, y_test, interest_rate, decision_maker))
     return utility
-    ### TODO: ! also the std is an important measure when considering
+    ### the std is an important measure when considering
     ### the random decision maker
 
 import numpy as np
@@ -71,3 +71,5 @@ print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(u
 utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=1)
 # the objective is to increase this number
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
+
+# prediction on test set is missing?

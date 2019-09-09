@@ -1,7 +1,7 @@
 import numpy as np
 
 class ProjectBanker:
-    
+
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
     # probabilities
@@ -17,7 +17,7 @@ class ProjectBanker:
     def predict_proba(self, x):
         return 0
 
-    # THe expected utility of granting the loan or not. Here there are two actions:
+    # The expected utility of granting the loan or not. Here there are two actions:
     # action = 0 do not grant the loan
     # action = 1 grant the loan
     #
@@ -26,6 +26,7 @@ class ProjectBanker:
     # The return if the loan is not paid off is -amount_of_loan.
     def expected_utility(self, x, action):
         print("Expected utility: Not implemented")
+
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
     def get_best_action(self, x):
