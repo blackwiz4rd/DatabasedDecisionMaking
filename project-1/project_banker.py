@@ -28,9 +28,10 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return amount_of_loan*(1 + self.rate)^length_of_loan * predict_proba(self, x)
+            return amount_of_loan*(1 + self.rate)^length_of_loan
 
-        return -amount_of_loan * predict_proba(self, x)
+        return -amount_of_loan
+        ##should we use self.predict_proba(x) here?
 
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
