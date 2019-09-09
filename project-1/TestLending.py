@@ -7,7 +7,7 @@ features = ['checking account balance', 'duration', 'credit history',
             'property', 'age', 'other installments', 'housing', 'credits',
             'job', 'persons', 'phone', 'foreign']
 target = 'repaid'
-df = pandas.read_csv('../../data/credit/german.data', sep=' ',
+df = pandas.read_csv('../credit/german.data', sep=' ',
                      names=features+[target])
 import matplotlib.pyplot as plt
 numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'duration', 'persons', 'credits']
@@ -39,10 +39,10 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 
 ### Setup model
-#import random_banker # this is a random banker
-#decision_maker = random_banker.RandomBanker()
-import aleksaw_banker
-decision_maker = aleksaw_banker.AlexBanker()
+import random_banker # this is a random banker
+decision_maker = random_banker.RandomBanker()
+#import project_banker
+#decision_maker = project_banker.ProjectBanker()
 
 interest_rate = 0.05
 
