@@ -15,7 +15,7 @@ class ProjectBanker:
 
     # Predict the probability of failure for a specific person with data x
     def predict_proba(self, x):
-        return 0
+        return 1
 
     # The expected utility of granting the loan or not. Here there are two actions:
     # action = 0 do not grant the loan
@@ -27,11 +27,10 @@ class ProjectBanker:
     def expected_utility(self, x, action):
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
-        rate = 0.05
         if action == 1:
-            return amount_of_loan*(1 + rate)^length_of_loan
+            return amount_of_loan*(1 + self.rate)^length_of_loan * predict_proba(self, x)
 
-        return -amount_of_loan
+        return -amount_of_loan * predict_proba(self, x)
 
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
