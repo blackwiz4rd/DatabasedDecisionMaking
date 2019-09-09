@@ -30,7 +30,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         if (action==1):
             if (good_loan != 1):
                 utility -= amount
-            else:    
+            else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1)
     return utility
 
@@ -40,22 +40,34 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
 ### Setup model
 import random_banker # this is a random banker
-decision_maker = random_banker.RandomBanker()
-#import project_banker
-#decision_maker = project_banker.ProjectBanker()
+random_decision_maker = random_banker.RandomBanker()
+import project_banker
+decision_maker = project_banker.ProjectBanker()
 
-interest_rate = 0.05
+interest_rate = 0.05 # r, if credit worthly insurer gets this amount per month
+
+## printing used data
+print(X[encoded_features].head())
+print(X[target])
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
-n_tests = 100
-utility = 0
-for iter in range(n_tests):
-    X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
-    decision_maker.set_interest_rate(interest_rate)
-    decision_maker.fit(X_train, y_train)
-    utility += test_decision_maker(X_test, y_test, interest_rate, decision_maker)
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
+    utility = []
+    for iter in range(n_tests):
+        X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
+        decision_maker.set_interest_rate(interest_rate)
+        decision_maker.fit(X_train, y_train)
+        utility.append(test_decision_maker(X_test, y_test, interest_rate, decision_maker))
+    return utility
+    ### TODO: ! also the std is an important measure when considering
+    ### the random decision maker
 
-print(utility / n_tests)
+import numpy as np
+utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=1)
+# the objective is to increase this number
+print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(utility), np.std(utility)))
 
-
+utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=1)
+# the objective is to increase this number
+print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
