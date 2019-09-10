@@ -69,12 +69,20 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     ### the random decision maker
 
 import numpy as np
-utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=10)
+random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=10)
 # the objective is to increase this number
-print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(utility), np.std(utility)))
+print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(random_utility), np.std(random_utility)))
 
 utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=10)
 # the objective is to increase this number
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
 
-### TODO: add boxplots
+import matplotlib.pyplot as plt
+x = [random_utility, utility]
+plt.boxplot(x, labels=['random_utility', 'our_utility'])
+plt.show()
+
+## other interesting plots on random:
+## best_action (it is a known distribution)
+## out_utility depends on data so of course the distribution
+## is different and variable for best_action

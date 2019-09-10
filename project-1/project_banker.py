@@ -57,7 +57,7 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return pow(amount_of_loan*(1 + self.rate), length_of_loan) * self.predict_proba(x)
+            return pow(amount_of_loan*(1 + self.rate), length_of_loan) * (1-self.predict_proba(x))
 
         return -amount_of_loan * self.predict_proba(x)
         ##
