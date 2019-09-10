@@ -20,6 +20,11 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     n_test_examples = len(X_test)
     utility = 0
 
+    ## This is to know how well the classifier is working
+    ## ABOUT 70% of accuracy
+    if decision_maker.name == "project":
+        print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
+
     ## Example test function - this is only an unbiased test if the data has not been seen in training
     for t in range(n_test_examples):
         action = decision_maker.get_best_action(X_test.iloc[t])
@@ -62,13 +67,14 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     return utility
     ### the std is an important measure when considering
     ### the random decision maker
-    ### we can also add boxplots
 
 import numpy as np
-utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=1)
+utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=10)
 # the objective is to increase this number
 print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(utility), np.std(utility)))
 
-utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=1)
+utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=10)
 # the objective is to increase this number
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
+
+### TODO: add boxplots

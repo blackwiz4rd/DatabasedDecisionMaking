@@ -2,6 +2,9 @@ import numpy as np
 
 class RandomBanker:
 
+    def __init__(self):
+        self.name = 'random'
+
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
     # probabilities
