@@ -52,6 +52,9 @@ import random_banker # this is a random banker
 random_decision_maker = random_banker.RandomBanker()
 import project_banker
 decision_maker = project_banker.ProjectBanker()
+import deterministic_banker
+deterministic_grant_banker = deterministic_banker.DeterministicBanker(action=1)
+deterministic_nogrant_banker = deterministic_banker.DeterministicBanker(action=0)
 
 interest_rate = 0.005 * 12 # r, if credit worthly insurer gets this amount per month
 # almost the same as 0.05
@@ -82,12 +85,15 @@ utility = get_utilities(X, encoded_features, target, interest_rate, decision_mak
 # the objective is to increase this number
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
 
-import matplotlib.pyplot as plt
-x = [random_utility, utility]
-plt.boxplot(x, labels=['random_utility', 'our_utility'])
-plt.show()
+deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker, n_tests=10)
+# the objective is to increase this number
+print("utility per tests on granting always, avg %i, std %i" % (np.mean(deterministic_grant_utility), np.std(deterministic_grant_utility)))
 
-## other interesting plots on random:
-## best_action (it is a known distribution)
-## out_utility depends on data so of course the distribution
-## is different and variable for best_action
+deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker, n_tests=10)
+# the objective is to increase this number
+print("utility per tests on not granting always, avg %i, std %i" % (np.mean(deterministic_nogrant_utility), np.std(deterministic_nogrant_utility)))
+
+import matplotlib.pyplot as plt
+x = [random_utility, utility, deterministic_grant_utility, deterministic_nogrant_utility]
+plt.boxplot(x, labels=['random_utility', 'our_utility', 'deterministic_grant', 'deterministic_nogrant'])
+plt.show()

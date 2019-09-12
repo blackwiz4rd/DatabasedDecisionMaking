@@ -10,12 +10,13 @@ class ProjectBanker:
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
     # probabilities
+    # TODO: better performances out of the clasfier or use Keras neural networks
     """
     This function uses a random forest classifier to predict new probabilities
     """
     def fit(self, X, y):
         self.data = [X, y]
-        self.clf = RandomForestClassifier(n_estimators=100, max_depth=2, random_state=0) # storing classifier
+        self.clf = RandomForestClassifier(n_estimators=100,  random_state=0) # storing classifier
         self.clf.fit(X, y)
 
     def test_accuracy(self, X, y):
