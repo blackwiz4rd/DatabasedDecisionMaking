@@ -50,23 +50,21 @@ class ProjectBanker:
     # amount_of_loan*(1 + rate)^length_of_loan
     # The return if the loan is not paid off is -amount_of_loan.
     """
-    FIX: Is it correct to calcule utility like this?
-    This function returns the probable amount gained or lost
-    when granting or not the loan.
-    My thoughts:
-    - if action = 0 can't be negative otherwise we always choose
-    action = 1.
-    - It is better to grant more and not grant less
-    - How do we consider amount_of_loan and length_of_loan?
+    This function calculates the expected utility.
+    The expected utility if the action is to grant the loan is given by
+    the formula:
+    amount_of_loan*(1 + self.rate)^length_of_loan * (1-self.predict_proba(x)) +
+    -amount_of_loan * self.predict_proba(x)
+    The expected utility if the action is not to grant anything is: 0
+    This is true because we don't loose or get anything.
     """
     def expected_utility(self, x, action):
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return 2 * (1-self.predict_proba(x))
+            return pow(amount_of_loan*(1 + self.rate), length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
 
-        return 1 * self.predict_proba(x)
-        ## problem: we always select action = 1 in get best action
+        return 0
 
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.

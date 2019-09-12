@@ -10,7 +10,7 @@ target = 'repaid'
 df = pandas.read_csv('../credit/german.data', sep=' ',
                      names=features+[target])
 import matplotlib.pyplot as plt
-numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'duration', 'persons', 'credits']
+numerical_features = ['duration', 'age', 'residence time', 'installment', 'amount', 'persons', 'credits']
 quantitative_features = list(filter(lambda x: x not in numerical_features, features))
 X = pandas.get_dummies(df, columns=quantitative_features, drop_first=True)
 encoded_features = list(filter(lambda x: x != target, X.columns))
@@ -26,8 +26,10 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
+    action_results = []
     for t in range(n_test_examples):
         action = decision_maker.get_best_action(X_test.iloc[t])
+        action_results.append(action)
         good_loan = y_test.iloc[t] # assume the labels are correct
         duration = X_test['duration'].iloc[t]
         amount = X_test['amount'].iloc[t]
@@ -37,6 +39,8 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
                 utility -= amount # number of credits lost
             else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
+
+    print("granted loans", np.array(action_results)[np.array(action_results)==1].sum())
     return utility
 
 
