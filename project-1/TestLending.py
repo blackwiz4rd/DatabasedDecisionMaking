@@ -53,7 +53,8 @@ random_decision_maker = random_banker.RandomBanker()
 import project_banker
 decision_maker = project_banker.ProjectBanker()
 
-interest_rate = 0.05 # r, if credit worthly insurer gets this amount per month
+interest_rate = 0.005 * 12 # r, if credit worthly insurer gets this amount per month
+# almost the same as 0.05
 
 ## printing used data
 print(X[encoded_features].head())
