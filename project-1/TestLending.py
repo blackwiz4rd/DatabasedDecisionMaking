@@ -1,4 +1,5 @@
 import pandas
+pandas.set_option('display.max_columns', None)
 
 ## Set up for dataset
 features = ['checking account balance', 'duration', 'credit history',
@@ -26,10 +27,10 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
-    action_results = []
+    action_results = np.array([])
     for t in range(n_test_examples):
         action = decision_maker.get_best_action(X_test.iloc[t])
-        action_results.append(action)
+        action_results = np.append(action_results, action)
         good_loan = y_test.iloc[t] # assume the labels are correct
         duration = X_test['duration'].iloc[t]
         amount = X_test['amount'].iloc[t]
@@ -40,7 +41,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
             else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
 
-    print("granted loans", np.array(action_results)[np.array(action_results)==1].sum())
+    print("granted loans", action_results[action_results==1].sum())
     return utility
 
 
@@ -55,17 +56,22 @@ decision_maker = project_banker.ProjectBanker()
 import deterministic_banker
 deterministic_grant_banker = deterministic_banker.DeterministicBanker(action=1)
 deterministic_nogrant_banker = deterministic_banker.DeterministicBanker(action=0)
+import nn_banker
+nn_banker = nn_banker.ProjectBanker()
 
 interest_rate = 0.005 * 12 # r, if credit worthly insurer gets this amount per month
 # almost the same as 0.05
 
 ## printing used data
+print(X.info())
 print(X[encoded_features].head())
 print(X[target])
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=2):
+#USE THIS FOR FINAL TESTING
+# def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
     utility = []
     for iter in range(n_tests):
         X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
@@ -73,27 +79,25 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
         decision_maker.fit(X_train, y_train)
         utility.append(test_decision_maker(X_test, y_test, interest_rate, decision_maker))
     return utility
-    ### the std is an important measure when considering
-    ### the random decision maker
 
 import numpy as np
-random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests=10)
-# the objective is to increase this number
+random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker)
 print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(random_utility), np.std(random_utility)))
 
-utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=10)
-# the objective is to increase this number
+utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker)
 print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
 
-deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker, n_tests=10)
-# the objective is to increase this number
+nn_utility = np.zeros(len(utility))
+# nn_utility = get_utilities(X, encoded_features, target, interest_rate, nn_banker)
+# print("utility per tests on not granting always, avg %i, std %i" % (np.mean(nn_utility), np.std(nn_utility)))
+
+deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker)
 print("utility per tests on granting always, avg %i, std %i" % (np.mean(deterministic_grant_utility), np.std(deterministic_grant_utility)))
 
-deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker, n_tests=10)
-# the objective is to increase this number
+deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker)
 print("utility per tests on not granting always, avg %i, std %i" % (np.mean(deterministic_nogrant_utility), np.std(deterministic_nogrant_utility)))
 
 import matplotlib.pyplot as plt
-x = [random_utility, utility, deterministic_grant_utility, deterministic_nogrant_utility]
-plt.boxplot(x, labels=['random_utility', 'our_utility', 'deterministic_grant', 'deterministic_nogrant'])
+x = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility]
+plt.boxplot(x, labels=['random_utility', 'our_utility', 'nn_utility', 'deterministic_grant', 'deterministic_nogrant'])
 plt.show()

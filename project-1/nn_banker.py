@@ -1,6 +1,6 @@
 import numpy as np
 # model for fitting dataset
-from sklearn.ensemble import RandomForestClassifier
+# implement a nn here with keras
 
 class ProjectBanker:
 
@@ -11,14 +11,12 @@ class ProjectBanker:
     # the fit, however you should be able to predict all class
     # probabilities
     """
-    This function uses a random forest classifier to predict new probabilities
+    This function uses a neural network classifier to predict new probabilities
     """
     def fit(self, X, y):
         self.data = [X, y]
-        # find out which n_depth number is the best for the random
-        # forest classifier (as we were doing for K-NN algorithm)
-        self.clf = RandomForestClassifier(n_estimators=100,  random_state=0) # storing classifier
-        self.clf.fit(X, y)
+        ## nn with keras
+        # self.clf.fit(X, y)
 
     def test_accuracy(self, X, y):
         return self.clf.score(X, y)
