@@ -60,8 +60,7 @@ deterministic_nogrant_banker = deterministic_banker.DeterministicBanker(action=0
 import nn_banker
 nn_banker = nn_banker.ProjectBanker()
 
-# interest_rate = 0.5/100 # r = if credit worthly insurer gets this amount per month
-interest_rate = 0.05
+interest_rate = 0.05 # r value
 
 ## printing used data
 print(X.info())
