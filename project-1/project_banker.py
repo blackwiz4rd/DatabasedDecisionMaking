@@ -1,11 +1,14 @@
 import numpy as np
 # model for fitting dataset
 from sklearn.ensemble import RandomForestClassifier
+# select best model
+from sklearn.model_selection import cross_val_score
 
 class ProjectBanker:
 
     def __init__(self):
-        self.name = 'project'
+        self.name = 'forest'
+        self.best_max_depth = None
 
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
@@ -17,9 +20,24 @@ class ProjectBanker:
         self.data = [X, y]
         # find out which n_depth number is the best for the random
         # forest classifier (as we were doing for K-NN algorithm)
-        self.clf = RandomForestClassifier(n_estimators=100,  random_state=0) # storing classifier
+        self.clf = RandomForestClassifier(n_estimators=100,  random_state=0, max_depth=self.best_max_depth) # storing classifier
         self.clf.fit(X, y)
 
+    """
+    Function invoked once to get the best max depth of the tree for
+    the test set
+    """
+    def set_best_max_depth(self, X, y):
+        depths = range(5,20)
+        untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
+        fold_scores = [cross_val_score(estimator=m, X=X, y=y, cv=5) for m in untrained_models]
+        mean_xv_scores = [s.mean() for s in fold_scores]
+        self.best_max_depth = np.asarray(mean_xv_scores).argmax()
+        print("best_max_depth %i" % self.best_max_depth)
+
+    """
+    Function to test the accuracy of the classifier
+    """
     def test_accuracy(self, X, y):
         return self.clf.score(X, y)
 

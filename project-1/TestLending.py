@@ -23,7 +23,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
     ## This is to know how well the classifier is working
     ## ABOUT 70% of accuracy
-    if decision_maker.name == "project":
+    if decision_maker.name == "forest":
         print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
@@ -67,14 +67,28 @@ print(X.info())
 print(X[encoded_features].head())
 print(X[target])
 
+## apply preprocessing
+## not a good idea, the utility function is rescaled too
+# from sklearn.preprocessing import StandardScaler
+# scaler = StandardScaler()
+# rescale_features = ['duration', 'amount', 'age']
+# X[rescale_features] = scaler.fit_transform(X=X[rescale_features], y=X[target])
+# print(X[encoded_features])
+
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=2):
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=10):
 #USE THIS FOR FINAL TESTING
 # def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
     utility = []
+    # do this once just for the random_forest to get the best value of depth
     for iter in range(n_tests):
         X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2)
+
+        ## preprocessing on random forest
+        if decision_maker.name == "forest":
+            decision_maker.set_best_max_depth(X_train, y_train)
+
         decision_maker.set_interest_rate(interest_rate)
         decision_maker.fit(X_train, y_train)
         utility.append(test_decision_maker(X_test, y_test, interest_rate, decision_maker))
