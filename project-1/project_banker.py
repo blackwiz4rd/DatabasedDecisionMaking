@@ -8,7 +8,8 @@ class ProjectBanker:
 
     def __init__(self):
         self.name = 'forest'
-        self.best_max_depth = None
+        # self.best_max_depth = None
+        self.best_max_depth = 10
 
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
@@ -28,12 +29,13 @@ class ProjectBanker:
     the test set
     """
     def set_best_max_depth(self, X, y):
-        depths = range(5,20)
-        untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
-        fold_scores = [cross_val_score(estimator=m, X=X, y=y, cv=5) for m in untrained_models]
-        mean_xv_scores = [s.mean() for s in fold_scores]
-        self.best_max_depth = np.asarray(mean_xv_scores).argmax()
-        print("best_max_depth %i" % self.best_max_depth)
+        if self.best_max_depth == None:
+            depths = range(5,20)
+            untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
+            fold_scores = [cross_val_score(estimator=m, X=X, y=y, cv=5) for m in untrained_models]
+            mean_xv_scores = [s.mean() for s in fold_scores]
+            self.best_max_depth = np.asarray(mean_xv_scores).argmax()
+            print("best_max_depth %i" % self.best_max_depth)
 
     """
     Function to test the accuracy of the classifier
@@ -59,7 +61,9 @@ class ProjectBanker:
     def predict_proba(self, x):
         ## order is class 1 = good_loan_proba, 2 = bad_loan_proba
         # print("classes", self.clf.classes_)
-        return self.clf.predict_proba(np.reshape(x.to_numpy(), (1, -1)))[0][1]
+        prediction = self.clf.predict_proba(np.reshape(x.to_numpy(), (1, -1)))
+        # print("prediction", prediction)
+        return prediction[0][1]
 
     # The expected utility of granting the loan or not. Here there are two actions:
     # action = 0 do not grant the loan
@@ -82,7 +86,7 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return pow(amount_of_loan*(1 + self.rate), length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
+            return amount_of_loan*(1 + self.rate*length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
 
         return 0
 

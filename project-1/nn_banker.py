@@ -1,11 +1,13 @@
 import numpy as np
 # model for fitting dataset
 # implement a nn here with keras
+from keras.models import Sequential
+from keras.layers import Dense, Activation
 
 class ProjectBanker:
 
     def __init__(self):
-        self.name = 'project'
+        self.name = 'nn'
 
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
@@ -14,12 +16,27 @@ class ProjectBanker:
     This function uses a neural network classifier to predict new probabilities
     """
     def fit(self, X, y):
-        self.data = [X, y]
+        # self.data = [X, y]
+        y = y - 1
         ## nn with keras
-        # self.clf.fit(X, y)
+        self.model = Sequential([
+            Dense(64, input_shape=(X.shape[1],)),
+            Activation('elu'),
+            Dense(32),
+            Activation('elu'),
+            Dense(16),
+            Activation('elu'),
+            Dense(1),
+            Activation('sigmoid'),
+        ])
+        self.model.compile(optimizer='SGD',
+             loss='binary_crossentropy',
+             metrics=['accuracy'])
+        self.model.fit(X, y, epochs=50, batch_size=100)
 
     def test_accuracy(self, X, y):
-        return self.clf.score(X, y)
+        y = y - 1
+        return self.model.test_on_batch(X, y)
 
     # set the interest rate
     """
@@ -37,9 +54,9 @@ class ProjectBanker:
     In case of single sample we also need to reshape it.
     """
     def predict_proba(self, x):
-        ## order is class 1 = good_loan_proba, 2 = bad_loan_proba
-        # print("classes", self.clf.classes_)
-        return self.clf.predict_proba(np.reshape(x.to_numpy(), (1, -1)))[0][1]
+        prediction = self.model.predict(np.reshape(x.to_numpy(), (1, -1)))
+        # print("prediction ", prediction)
+        return prediction[0][0]
 
     # The expected utility of granting the loan or not. Here there are two actions:
     # action = 0 do not grant the loan
@@ -62,7 +79,7 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return pow(amount_of_loan*(1 + self.rate), length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
+            return amount_of_loan*(1 + self.rate*length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
 
         return 0
 
