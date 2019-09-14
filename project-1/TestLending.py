@@ -32,6 +32,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
         action = decision_maker.get_best_action(X_test.iloc[t])
         action_results = np.append(action_results, action)
         good_loan = y_test.iloc[t] # assume the labels are correct
+        # print("loan true value ", good_loan)
         duration = X_test['duration'].iloc[t]
         amount = X_test['amount'].iloc[t]
         # If we don't grant the loan then nothing happens
@@ -59,9 +60,7 @@ deterministic_nogrant_banker = deterministic_banker.DeterministicBanker(action=0
 import nn_banker
 nn_banker = nn_banker.ProjectBanker()
 
-# interest_rate = 0.005 # r = if credit worthly insurer gets this amount per month
-# interest_rate = 0.05 # FIX: is this an error???
-interest_rate = 0.005*12
+interest_rate = 0.5/100/12 # r = if credit worthly insurer gets this amount per month
 
 ## printing used data
 print(X.info())

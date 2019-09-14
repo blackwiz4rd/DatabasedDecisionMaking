@@ -35,7 +35,7 @@ class ProjectBanker:
             fold_scores = [cross_val_score(estimator=m, X=X, y=y, cv=5) for m in untrained_models]
             mean_xv_scores = [s.mean() for s in fold_scores]
             self.best_max_depth = np.asarray(mean_xv_scores).argmax()
-            print("best_max_depth %i" % self.best_max_depth)
+            # print("best_max_depth %i" % self.best_max_depth)
 
     """
     Function to test the accuracy of the classifier
@@ -86,7 +86,12 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            return amount_of_loan*(1 + self.rate*length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
+            # print("amount gained lost", amount_of_loan*(1 + self.rate*length_of_loan), -amount_of_loan)
+            # print("expected_utility grant probability ", amount_of_loan*(1 + self.rate*length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x), (1-self.predict_proba(x)))
+            # return amount_of_loan*(1 + self.rate*length_of_loan) * (1-self.predict_proba(x)) - amount_of_loan * self.predict_proba(x)
+            gain = amount_of_loan * (pow(1 + self.rate, length_of_loan)) * (1 - self.predict_proba(x))
+            loss = amount_of_loan * self.predict_proba(x)
+            return gain - loss
 
         return 0
 
@@ -105,4 +110,5 @@ class ProjectBanker:
             if utility_a > best_utility:
                 best_action = a
                 best_utility = utility_a
+        # print("grant = ", best_action)
         return best_action
