@@ -125,8 +125,7 @@ class ProjectBanker:
         actions = [0, 1]
         utility_0 = self.expected_utility(x, actions[0])
         utility_1 = self.expected_utility(x, actions[1])
-        threshold = 500
-        if utility_1 - utility_0 > threshold:
+        if utility_1 > utility_0:
             return actions[1]
 
         return actions[0]

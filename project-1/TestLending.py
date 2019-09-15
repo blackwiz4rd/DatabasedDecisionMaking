@@ -86,6 +86,7 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker):
         ## preprocessing on random forest
         if decision_maker.name == "forest":
             decision_maker.set_best_max_depth(X_train, y_train)
+            decision_maker.set_best_max_features(X_train, y_train)
 
         decision_maker.set_interest_rate(interest_rate)
         decision_maker.fit(X_train, y_train)
@@ -93,9 +94,6 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker):
     return utility
 
 import numpy as np
-random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker)
-print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(random_utility), np.std(random_utility)))
-
 # utility = np.zeros(len(random_utility))
 utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker)
 print("utility per tests with random forest, avg %i, std %i" % (np.mean(utility), np.std(utility)))
@@ -103,6 +101,9 @@ print("utility per tests with random forest, avg %i, std %i" % (np.mean(utility)
 # nn_utility = np.zeros(len(utility))
 nn_utility = get_utilities(X, encoded_features, target, interest_rate, nn_banker)
 print("utility per tests on nn, avg %i, std %i" % (np.mean(nn_utility), np.std(nn_utility)))
+
+random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker)
+print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(random_utility), np.std(random_utility)))
 
 deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker)
 print("utility per tests on granting always, avg %i, std %i" % (np.mean(deterministic_grant_utility), np.std(deterministic_grant_utility)))

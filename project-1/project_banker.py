@@ -10,13 +10,15 @@ class ProjectBanker:
 
     def __init__(self):
         self.name = 'forest'
+        # best values
+        # set one at a time to None for testing the best value with cv!
         # self.best_max_depth = None
-        self.best_max_depth = 10
+        self.best_max_depth = 15
+        # self.best_max_features = None
+        self.best_max_features = 35
 
     def preprocessing(self, X, fit=False):
         X_temp = X.copy()
-        # rescale_features = ['age', 'duration', 'amount']
-        # X_some_features = X_temp[rescale_features]
 
         if fit:
             self.scaler = MinMaxScaler()
@@ -24,7 +26,6 @@ class ProjectBanker:
         else:
             self.scaler.transform(X_temp)
 
-        # X_temp[rescale_features] = X_some_features
         return X_temp
 
     # Fit the model to the data.  You can use any model you like to do
@@ -34,13 +35,21 @@ class ProjectBanker:
     This function uses a random forest classifier to predict new probabilities
     """
     def fit(self, X, y):
-        if self.best_max_depth == None:
+        if self.best_max_depth == None and self.best_max_features == None:
             X_scaled = self.preprocessing(X)
         else:
             X_scaled = self.preprocessing(X,fit=True)
 
-        self.clf = RandomForestClassifier(n_estimators=100, random_state=0, max_depth=self.best_max_depth) # storing classifier
+        self.clf = RandomForestClassifier(
+            n_estimators=100,
+            random_state=0,
+            max_depth=self.best_max_depth,
+            max_features=self.best_max_features,
+            class_weight="balanced"
+        ) # storing classifier
         self.clf.fit(X_scaled, y)
+        print("training score ", self.clf.score(X_scaled, y))
+        # print("feature_importances_", self.clf.feature_importances_)
 
     """
     Function invoked once to get the best max depth of the tree for
@@ -50,10 +59,25 @@ class ProjectBanker:
         if self.best_max_depth == None:
             X_scaled = self.preprocessing(X, fit=True)
             depths = range(5,20)
-            untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
-            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=10) for m in untrained_models]
+            untrained_models = [RandomForestClassifier(n_estimators=100, random_state=0, max_depth=d, max_features=self.best_max_features, class_weight="balanced") for d in depths]
+            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=5) for m in untrained_models]
             mean_xv_scores = [s.mean() for s in fold_scores]
-            self.best_max_depth = np.asarray(mean_xv_scores).argmax()
+            print("fold: ", fold_scores, len(fold_scores), np.asarray(mean_xv_scores).argmax())
+            self.best_max_depth = depths[np.asarray(mean_xv_scores).argmax()]
+            print("best_max_depth: ", self.best_max_depth)
+
+    """
+    Function invoked to evaluate feature importance
+    """
+    def set_best_max_features(self, X, y):
+        if self.best_max_features == None:
+            X_scaled = self.preprocessing(X, fit=True)
+            features = range(20,40,5)
+            untrained_models = [RandomForestClassifier(n_estimators=100, random_state=0, max_depth=self.best_max_depth, max_features=f, class_weight="balanced") for f in features]
+            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=5) for m in untrained_models]
+            mean_xv_scores = [s.mean() for s in fold_scores]
+            self.best_max_features = features[np.asarray(mean_xv_scores).argmax()]
+            print("best_max_features: ", self.best_max_features)
 
     """
     Function to test the accuracy of the classifier
@@ -125,7 +149,6 @@ class ProjectBanker:
         utility_1 = self.expected_utility(x, actions[1])
         # grant about accuracy/100*200 = 150 -> error estimate
         # most of the measures are below 20 000
-        threshold = 500
-        if utility_1 - utility_0 > threshold:
+        if utility_1 - utility_0 > 0:
             return actions[1]
         return actions[0]
