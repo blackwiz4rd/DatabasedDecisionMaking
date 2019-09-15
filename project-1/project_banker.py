@@ -1,15 +1,31 @@
 import numpy as np
+import pandas as pd
 # model for fitting dataset
 from sklearn.ensemble import RandomForestClassifier
 # select best model
 from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 
 class ProjectBanker:
 
     def __init__(self):
         self.name = 'forest'
-        # self.best_max_depth = None
-        self.best_max_depth = 10
+        self.best_max_depth = None
+        # self.best_max_depth = 10
+
+    def preprocessing(self, X, fit=False):
+        X_temp = X.copy()
+        # rescale_features = ['age', 'duration', 'amount']
+        # X_some_features = X_temp[rescale_features]
+
+        if fit:
+            self.scaler = StandardScaler()
+            X_some_features = self.scaler.fit_transform(X_temp)
+        else:
+            self.scaler.transform(X_temp)
+
+        # X_temp[rescale_features] = X_some_features
+        return X_temp
 
     # Fit the model to the data.  You can use any model you like to do
     # the fit, however you should be able to predict all class
@@ -18,11 +34,9 @@ class ProjectBanker:
     This function uses a random forest classifier to predict new probabilities
     """
     def fit(self, X, y):
-        self.data = [X, y]
-        # find out which n_depth number is the best for the random
-        # forest classifier (as we were doing for K-NN algorithm)
+        X_scaled = self.preprocessing(X)
         self.clf = RandomForestClassifier(n_estimators=100,  random_state=0, max_depth=self.best_max_depth) # storing classifier
-        self.clf.fit(X, y)
+        self.clf.fit(X_scaled, y)
 
     """
     Function invoked once to get the best max depth of the tree for
@@ -30,18 +44,19 @@ class ProjectBanker:
     """
     def set_best_max_depth(self, X, y):
         if self.best_max_depth == None:
+            X_scaled = self.preprocessing(X, fit=True)
             depths = range(5,20)
             untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
-            fold_scores = [cross_val_score(estimator=m, X=X, y=y, cv=5) for m in untrained_models]
+            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=5) for m in untrained_models]
             mean_xv_scores = [s.mean() for s in fold_scores]
             self.best_max_depth = np.asarray(mean_xv_scores).argmax()
-            # print("best_max_depth %i" % self.best_max_depth)
 
     """
     Function to test the accuracy of the classifier
     """
     def test_accuracy(self, X, y):
-        return self.clf.score(X, y)
+        X_scaled = self.preprocessing(X)
+        return self.clf.score(X_scaled, y)
 
     # set the interest rate
     """
@@ -59,10 +74,9 @@ class ProjectBanker:
     In case of single sample we also need to reshape it.
     """
     def predict_proba(self, x):
-        ## order is class 1 = good_loan_proba, 2 = bad_loan_proba
-        # print("classes", self.clf.classes_)
-        prediction = self.clf.predict_proba(np.reshape(x.to_numpy(), (1, -1)))
-        # print("prediction", prediction)
+        x_reshaped = np.reshape(x.to_numpy(), (1, -1))
+        x_scaled = self.preprocessing(x_reshaped)
+        prediction = self.clf.predict_proba(x_scaled)
         return prediction[0][1]
 
     # The expected utility of granting the loan or not. Here there are two actions:
@@ -99,13 +113,13 @@ class ProjectBanker:
     maximized
     """
     def get_best_action(self, x):
+        ## better way to calculate utility that allows to defiate from max
+        ## threshold may be set higher to avoid granting too many loans
         actions = [0, 1]
-        best_action = -np.inf
-        best_utility = -np.inf
-        for a in actions:
-            utility_a = self.expected_utility(x, a)
-            if utility_a > best_utility:
-                best_action = a
-                best_utility = utility_a
-        # print("grant = ", best_action)
-        return best_action
+        utility_0 = self.expected_utility(x, actions[0])
+        utility_1 = self.expected_utility(x, actions[1])
+        # grant about accuracy/100*200 = 150 -> error estimate
+        # most of the measures are below 20 000
+        if utility_1 - utility_0 > 1500:
+            return actions[1]
+        return actions[0]

@@ -23,7 +23,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
 
     ## This is to know how well the classifier is working
     ## ABOUT 70% of accuracy
-    if decision_maker.name == "forest":
+    if decision_maker.name == "forest" or decision_maker.name == "nn":
         print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
@@ -42,7 +42,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
             else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
 
-    print("granted loans", action_results[action_results==1].sum())
+    print(decision_maker.name, "granted loans", np.sum(action_results))
     return utility
 
 
@@ -63,25 +63,24 @@ nn_banker = nn_banker.ProjectBanker()
 interest_rate = 0.05 # r value
 
 ## printing used data
-print(X.info())
-print(X[encoded_features].head())
-print(X[target])
+# print(X.info())
+# print(X[encoded_features].head())
+# print(X[target])
 
-## apply preprocessing
-## not a good idea, the utility function is rescaled too
-# from sklearn.preprocessing import StandardScaler
-# scaler = StandardScaler()
-# rescale_features = ['duration', 'amount', 'age']
-# X[rescale_features] = scaler.fit_transform(X=X[rescale_features], y=X[target])
-# print(X[encoded_features])
+## plot some stuff
+rate_column = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
+plt.hist(rate_column)
+plt.ylabel("count")
+plt.xlabel("gainable amount")
+plt.show()
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=2):
-#USE THIS FOR FINAL TESTING
 # def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=5):
     utility = []
     # do this once just for the random_forest to get the best value of depth
+    print("-- Running banker:", decision_maker.name)
     for iter in range(n_tests):
         X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2, random_state=iter)
         # random_state=iter is mandatory otherwise we get wrong results
@@ -102,11 +101,11 @@ print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(r
 
 # utility = np.zeros(len(random_utility))
 utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker)
-print("utility per tests on our decision maker, avg %i, std %i" % (np.mean(utility), np.std(utility)))
+print("utility per tests with random forest, avg %i, std %i" % (np.mean(utility), np.std(utility)))
 
 # nn_utility = np.zeros(len(utility))
 nn_utility = get_utilities(X, encoded_features, target, interest_rate, nn_banker)
-print("utility per tests on not granting always, avg %i, std %i" % (np.mean(nn_utility), np.std(nn_utility)))
+print("utility per tests on nn, avg %i, std %i" % (np.mean(nn_utility), np.std(nn_utility)))
 
 deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker)
 print("utility per tests on granting always, avg %i, std %i" % (np.mean(deterministic_grant_utility), np.std(deterministic_grant_utility)))
@@ -117,4 +116,5 @@ print("utility per tests on not granting always, avg %i, std %i" % (np.mean(dete
 import matplotlib.pyplot as plt
 x = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility]
 plt.boxplot(x, labels=['random_utility', 'our_utility', 'nn_utility', 'deterministic_grant', 'deterministic_nogrant'])
+plt.ylabel("amount gained")
 plt.show()
