@@ -76,8 +76,8 @@ plt.show()
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=2):
 # def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=5):
     utility = []
     # do this once just for the random_forest to get the best value of depth
     print("-- Running banker:", decision_maker.name)

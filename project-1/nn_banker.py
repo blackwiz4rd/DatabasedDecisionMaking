@@ -5,7 +5,7 @@ import numpy.random as npr
 # implement a nn here with keras
 from keras.models import Sequential
 from keras.layers import Dense, Activation
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 # suppress warnings
 import warnings
@@ -24,7 +24,7 @@ class ProjectBanker:
         # X_some_features = X_temp[rescale_features]
 
         if fit:
-            self.scaler = StandardScaler()
+            self.scaler = MinMaxScaler()
             X_some_features = self.scaler.fit_transform(X_temp)
         else:
             self.scaler.transform(X_temp)
@@ -124,7 +124,8 @@ class ProjectBanker:
         actions = [0, 1]
         utility_0 = self.expected_utility(x, actions[0])
         utility_1 = self.expected_utility(x, actions[1])
-        if utility_1 - utility_0 > 1500:
+        threshold = 1500
+        if utility_1 - utility_0 > threshold:
             return actions[1]
 
         return actions[0]

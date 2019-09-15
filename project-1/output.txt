@@ -1,0 +1,588 @@
+200/200 [==============================] - 2s 9ms/step
+Testing accuracy of the classifier :  0.69
+nn granted loans 183.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 6ms/step - loss: 4.9193 - acc: 0.6613
+Epoch 2/7
+800/800 [==============================] - 0s 144us/step - loss: 4.9563 - acc: 0.6925
+Epoch 3/7
+800/800 [==============================] - 0s 106us/step - loss: 4.9563 - acc: 0.6925
+Epoch 4/7
+800/800 [==============================] - 0s 102us/step - loss: 4.9563 - acc: 0.6925
+Epoch 5/7
+800/800 [==============================] - 0s 97us/step - loss: 4.9563 - acc: 0.6925
+Epoch 6/7
+800/800 [==============================] - 0s 101us/step - loss: 4.9563 - acc: 0.6925
+Epoch 7/7
+800/800 [==============================] - 0s 100us/step - loss: 4.9563 - acc: 0.6925
+200/200 [==============================] - 2s 9ms/step
+Testing accuracy of the classifier :  0.73
+nn granted loans 183.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 6ms/step - loss: 10.3870 - acc: 0.3375
+Epoch 2/7
+800/800 [==============================] - 0s 126us/step - loss: 4.9693 - acc: 0.6913
+Epoch 3/7
+800/800 [==============================] - 0s 135us/step - loss: 4.9765 - acc: 0.6913
+Epoch 4/7
+800/800 [==============================] - 0s 149us/step - loss: 4.9765 - acc: 0.6913
+Epoch 5/7
+800/800 [==============================] - 0s 104us/step - loss: 4.9765 - acc: 0.6913
+Epoch 6/7
+800/800 [==============================] - 0s 119us/step - loss: 4.9765 - acc: 0.6913
+Epoch 7/7
+800/800 [==============================] - 0s 105us/step - loss: 4.9765 - acc: 0.6913
+200/200 [==============================] - 2s 9ms/step
+Testing accuracy of the classifier :  0.735
+nn granted loans 178.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 11.1198 - acc: 0.3025
+Epoch 2/7
+800/800 [==============================] - 0s 142us/step - loss: 11.1198 - acc: 0.3025
+Epoch 3/7
+800/800 [==============================] - 0s 172us/step - loss: 11.1198 - acc: 0.3025
+Epoch 4/7
+800/800 [==============================] - 0s 127us/step - loss: 11.1198 - acc: 0.3025
+Epoch 5/7
+800/800 [==============================] - 0s 124us/step - loss: 11.1198 - acc: 0.3025
+Epoch 6/7
+800/800 [==============================] - 0s 121us/step - loss: 11.1198 - acc: 0.3025
+Epoch 7/7
+800/800 [==============================] - 0s 121us/step - loss: 11.1198 - acc: 0.3025
+200/200 [==============================] - 2s 11ms/step
+Testing accuracy of the classifier :  0.29
+nn granted loans 0.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 7s 9ms/step - loss: 5.8720 - acc: 0.6013
+Epoch 2/7
+800/800 [==============================] - 0s 208us/step - loss: 4.8153 - acc: 0.7013
+Epoch 3/7
+800/800 [==============================] - 0s 114us/step - loss: 4.8153 - acc: 0.7013
+Epoch 4/7
+800/800 [==============================] - 0s 265us/step - loss: 4.8153 - acc: 0.7013
+Epoch 5/7
+800/800 [==============================] - 0s 366us/step - loss: 4.8153 - acc: 0.7013
+Epoch 6/7
+800/800 [==============================] - 0s 256us/step - loss: 4.8153 - acc: 0.7013
+Epoch 7/7
+800/800 [==============================] - 0s 131us/step - loss: 4.8153 - acc: 0.7013
+200/200 [==============================] - 2s 12ms/step
+Testing accuracy of the classifier :  0.695
+nn granted loans 185.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 4.7548 - acc: 0.7050
+Epoch 2/7
+800/800 [==============================] - 0s 120us/step - loss: 4.7548 - acc: 0.7050
+Epoch 3/7
+800/800 [==============================] - 0s 121us/step - loss: 4.7548 - acc: 0.7050
+Epoch 4/7
+800/800 [==============================] - 0s 122us/step - loss: 4.7548 - acc: 0.7050
+Epoch 5/7
+800/800 [==============================] - 0s 120us/step - loss: 4.7548 - acc: 0.7050
+Epoch 6/7
+800/800 [==============================] - 0s 120us/step - loss: 4.7548 - acc: 0.7050
+Epoch 7/7
+800/800 [==============================] - 0s 120us/step - loss: 4.7548 - acc: 0.7050
+200/200 [==============================] - 2s 10ms/step
+Testing accuracy of the classifier :  0.68
+nn granted loans 191.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 6ms/step - loss: 10.8807 - acc: 0.3175
+Epoch 2/7
+800/800 [==============================] - 0s 201us/step - loss: 10.8807 - acc: 0.3175
+Epoch 3/7
+800/800 [==============================] - 0s 127us/step - loss: 10.8807 - acc: 0.3175
+Epoch 4/7
+800/800 [==============================] - 0s 156us/step - loss: 10.8807 - acc: 0.3175
+Epoch 5/7
+800/800 [==============================] - 0s 137us/step - loss: 10.8807 - acc: 0.3175
+Epoch 6/7
+800/800 [==============================] - 0s 131us/step - loss: 10.8807 - acc: 0.3175
+Epoch 7/7
+800/800 [==============================] - 0s 118us/step - loss: 10.8807 - acc: 0.3175
+200/200 [==============================] - 2s 11ms/step
+Testing accuracy of the classifier :  0.23
+nn granted loans 0.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 5.3347 - acc: 0.6313
+Epoch 2/7
+800/800 [==============================] - 0s 149us/step - loss: 4.8959 - acc: 0.6962
+Epoch 3/7
+800/800 [==============================] - 0s 187us/step - loss: 4.8959 - acc: 0.6962
+Epoch 4/7
+800/800 [==============================] - 0s 138us/step - loss: 4.8959 - acc: 0.6962
+Epoch 5/7
+800/800 [==============================] - 0s 169us/step - loss: 4.8959 - acc: 0.6962
+Epoch 6/7
+800/800 [==============================] - 0s 139us/step - loss: 4.8959 - acc: 0.6962
+Epoch 7/7
+800/800 [==============================] - 0s 123us/step - loss: 4.8959 - acc: 0.6962
+200/200 [==============================] - 2s 11ms/step
+Testing accuracy of the classifier :  0.715
+nn granted loans 192.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 8ms/step - loss: 5.0894 - acc: 0.6600
+Epoch 2/7
+800/800 [==============================] - 0s 135us/step - loss: 4.8715 - acc: 0.6975
+Epoch 3/7
+800/800 [==============================] - 0s 142us/step - loss: 4.8689 - acc: 0.6975
+Epoch 4/7
+800/800 [==============================] - 0s 126us/step - loss: 4.8628 - acc: 0.6975
+Epoch 5/7
+800/800 [==============================] - 0s 136us/step - loss: 4.5968 - acc: 0.6775
+Epoch 6/7
+800/800 [==============================] - 0s 145us/step - loss: 4.8723 - acc: 0.6975
+Epoch 7/7
+800/800 [==============================] - 0s 135us/step - loss: 4.8750 - acc: 0.6975
+200/200 [==============================] - 2s 10ms/step
+Testing accuracy of the classifier :  0.71
+nn granted loans 188.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 7s 9ms/step - loss: 11.1076 - acc: 0.3025
+Epoch 2/7
+800/800 [==============================] - 0s 196us/step - loss: 4.6989 - acc: 0.7000
+Epoch 3/7
+800/800 [==============================] - 0s 250us/step - loss: 4.8556 - acc: 0.6987
+Epoch 4/7
+800/800 [==============================] - 0s 137us/step - loss: 4.8556 - acc: 0.6987
+Epoch 5/7
+800/800 [==============================] - 0s 120us/step - loss: 4.8556 - acc: 0.6987
+Epoch 6/7
+800/800 [==============================] - 0s 106us/step - loss: 4.8556 - acc: 0.6987
+Epoch 7/7
+800/800 [==============================] - 0s 107us/step - loss: 4.8556 - acc: 0.6987
+200/200 [==============================] - 2s 12ms/step
+Testing accuracy of the classifier :  0.705
+nn granted loans 186.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 6ms/step - loss: 11.0800 - acc: 0.3050
+Epoch 2/7
+800/800 [==============================] - 0s 132us/step - loss: 11.0800 - acc: 0.3050
+Epoch 3/7
+800/800 [==============================] - 0s 125us/step - loss: 11.0800 - acc: 0.3050
+Epoch 4/7
+800/800 [==============================] - 0s 119us/step - loss: 11.0800 - acc: 0.3050
+Epoch 5/7
+800/800 [==============================] - 0s 122us/step - loss: 11.0800 - acc: 0.3050
+Epoch 6/7
+800/800 [==============================] - 0s 132us/step - loss: 11.0800 - acc: 0.3050
+Epoch 7/7
+800/800 [==============================] - 0s 135us/step - loss: 11.0800 - acc: 0.3050
+200/200 [==============================] - 2s 10ms/step
+Testing accuracy of the classifier :  0.28
+nn granted loans 0.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 7ms/step - loss: 5.1556 - acc: 0.6562
+Epoch 2/7
+800/800 [==============================] - 0s 123us/step - loss: 4.7347 - acc: 0.7063
+Epoch 3/7
+800/800 [==============================] - 0s 134us/step - loss: 4.7347 - acc: 0.7063
+Epoch 4/7
+800/800 [==============================] - 0s 128us/step - loss: 4.7347 - acc: 0.7063
+Epoch 5/7
+800/800 [==============================] - 0s 143us/step - loss: 4.7347 - acc: 0.7063
+Epoch 6/7
+800/800 [==============================] - 0s 144us/step - loss: 4.7347 - acc: 0.7063
+Epoch 7/7
+800/800 [==============================] - 0s 132us/step - loss: 4.7347 - acc: 0.7063
+200/200 [==============================] - 2s 10ms/step
+Testing accuracy of the classifier :  0.675
+nn granted loans 190.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 1.8417 - acc: 0.5850
+Epoch 2/7
+800/800 [==============================] - 0s 159us/step - loss: 0.8361 - acc: 0.6125
+Epoch 3/7
+800/800 [==============================] - 0s 125us/step - loss: 0.6868 - acc: 0.6525
+Epoch 4/7
+800/800 [==============================] - 0s 148us/step - loss: 0.8612 - acc: 0.6400
+Epoch 5/7
+800/800 [==============================] - 0s 129us/step - loss: 1.0312 - acc: 0.6425
+Epoch 6/7
+800/800 [==============================] - 0s 137us/step - loss: 1.3361 - acc: 0.6138
+Epoch 7/7
+800/800 [==============================] - 0s 133us/step - loss: 1.1648 - acc: 0.6325
+200/200 [==============================] - 2s 12ms/step
+Testing accuracy of the classifier :  0.75
+nn granted loans 145.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 8ms/step - loss: 4.9362 - acc: 0.6938
+Epoch 2/7
+800/800 [==============================] - 0s 141us/step - loss: 4.9362 - acc: 0.6938
+Epoch 3/7
+800/800 [==============================] - 0s 168us/step - loss: 4.9362 - acc: 0.6938
+Epoch 4/7
+800/800 [==============================] - 0s 285us/step - loss: 4.9362 - acc: 0.6938
+Epoch 5/7
+800/800 [==============================] - 0s 109us/step - loss: 4.9362 - acc: 0.6938
+Epoch 6/7
+800/800 [==============================] - 0s 108us/step - loss: 4.9362 - acc: 0.6938
+Epoch 7/7
+800/800 [==============================] - 0s 114us/step - loss: 4.9362 - acc: 0.6938
+200/200 [==============================] - 3s 13ms/step
+Testing accuracy of the classifier :  0.725
+nn granted loans 183.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 8ms/step - loss: 5.2704 - acc: 0.6600
+Epoch 2/7
+800/800 [==============================] - 0s 198us/step - loss: 3.8245 - acc: 0.6275
+Epoch 3/7
+800/800 [==============================] - 0s 110us/step - loss: 4.7469 - acc: 0.7025
+Epoch 4/7
+800/800 [==============================] - 0s 145us/step - loss: 4.7949 - acc: 0.7025
+Epoch 5/7
+800/800 [==============================] - 0s 134us/step - loss: 4.7932 - acc: 0.7025
+Epoch 6/7
+800/800 [==============================] - 0s 130us/step - loss: 4.7905 - acc: 0.7025
+Epoch 7/7
+800/800 [==============================] - 0s 123us/step - loss: 4.7822 - acc: 0.7025
+200/200 [==============================] - 2s 12ms/step
+Testing accuracy of the classifier :  0.69
+nn granted loans 178.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 7s 9ms/step - loss: 4.9931 - acc: 0.6825
+Epoch 2/7
+800/800 [==============================] - 0s 133us/step - loss: 4.7951 - acc: 0.7025
+Epoch 3/7
+800/800 [==============================] - 0s 129us/step - loss: 4.7951 - acc: 0.7025
+Epoch 4/7
+800/800 [==============================] - 0s 243us/step - loss: 4.7951 - acc: 0.7025
+Epoch 5/7
+800/800 [==============================] - 0s 165us/step - loss: 4.7951 - acc: 0.7025
+Epoch 6/7
+800/800 [==============================] - 0s 118us/step - loss: 4.7951 - acc: 0.7025
+Epoch 7/7
+800/800 [==============================] - 0s 134us/step - loss: 4.7951 - acc: 0.7025
+200/200 [==============================] - 2s 12ms/step
+Testing accuracy of the classifier :  0.69
+nn granted loans 179.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 5s 7ms/step - loss: 5.3527 - acc: 0.6412
+Epoch 2/7
+800/800 [==============================] - 0s 169us/step - loss: 4.7548 - acc: 0.7050
+Epoch 3/7
+800/800 [==============================] - 0s 167us/step - loss: 4.7548 - acc: 0.7050
+Epoch 4/7
+800/800 [==============================] - 0s 182us/step - loss: 4.7548 - acc: 0.7050
+Epoch 5/7
+800/800 [==============================] - 0s 133us/step - loss: 4.7548 - acc: 0.7050
+Epoch 6/7
+800/800 [==============================] - 0s 122us/step - loss: 4.7548 - acc: 0.7050
+Epoch 7/7
+800/800 [==============================] - 0s 114us/step - loss: 4.7548 - acc: 0.7050
+200/200 [==============================] - 2s 11ms/step
+Testing accuracy of the classifier :  0.68
+nn granted loans 184.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 11.0176 - acc: 0.3025
+Epoch 2/7
+800/800 [==============================] - 0s 127us/step - loss: 1.8459 - acc: 0.5800
+Epoch 3/7
+800/800 [==============================] - 0s 126us/step - loss: 2.0052 - acc: 0.6088
+Epoch 4/7
+800/800 [==============================] - 0s 126us/step - loss: 1.6086 - acc: 0.6225
+Epoch 5/7
+800/800 [==============================] - 0s 129us/step - loss: 1.4200 - acc: 0.6337
+Epoch 6/7
+800/800 [==============================] - 0s 127us/step - loss: 1.7921 - acc: 0.6150
+Epoch 7/7
+800/800 [==============================] - 0s 129us/step - loss: 0.7864 - acc: 0.6450
+200/200 [==============================] - 3s 15ms/step
+Testing accuracy of the classifier :  0.47
+nn granted loans 61.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 8ms/step - loss: 11.0800 - acc: 0.3050
+Epoch 2/7
+800/800 [==============================] - 0s 119us/step - loss: 11.0800 - acc: 0.3050
+Epoch 3/7
+800/800 [==============================] - 0s 127us/step - loss: 11.0800 - acc: 0.3050
+Epoch 4/7
+800/800 [==============================] - 0s 119us/step - loss: 11.0800 - acc: 0.3050
+Epoch 5/7
+800/800 [==============================] - 0s 114us/step - loss: 11.0800 - acc: 0.3050
+Epoch 6/7
+800/800 [==============================] - 0s 124us/step - loss: 11.0800 - acc: 0.3050
+Epoch 7/7
+800/800 [==============================] - 0s 116us/step - loss: 11.0800 - acc: 0.3050
+200/200 [==============================] - 2s 11ms/step
+Testing accuracy of the classifier :  0.28
+nn granted loans 0.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 7ms/step - loss: 4.8757 - acc: 0.6975
+Epoch 2/7
+800/800 [==============================] - 0s 141us/step - loss: 4.8757 - acc: 0.6975
+Epoch 3/7
+800/800 [==============================] - 0s 162us/step - loss: 4.8757 - acc: 0.6975
+Epoch 4/7
+800/800 [==============================] - 0s 322us/step - loss: 4.8757 - acc: 0.6975
+Epoch 5/7
+800/800 [==============================] - 0s 119us/step - loss: 4.8757 - acc: 0.6975
+Epoch 6/7
+800/800 [==============================] - 0s 116us/step - loss: 4.8757 - acc: 0.6975
+Epoch 7/7
+800/800 [==============================] - 0s 119us/step - loss: 4.8757 - acc: 0.6975
+200/200 [==============================] - 3s 13ms/step
+Testing accuracy of the classifier :  0.71
+nn granted loans 187.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 8s 9ms/step - loss: 6.2455 - acc: 0.5887
+Epoch 2/7
+800/800 [==============================] - 0s 222us/step - loss: 4.7145 - acc: 0.7075
+Epoch 3/7
+800/800 [==============================] - 0s 130us/step - loss: 4.7145 - acc: 0.7075
+Epoch 4/7
+800/800 [==============================] - 0s 247us/step - loss: 4.7145 - acc: 0.7075
+Epoch 5/7
+800/800 [==============================] - 0s 318us/step - loss: 4.7145 - acc: 0.7075
+Epoch 6/7
+800/800 [==============================] - 0s 127us/step - loss: 4.7145 - acc: 0.7075
+Epoch 7/7
+800/800 [==============================] - 0s 122us/step - loss: 4.7145 - acc: 0.7075
+200/200 [==============================] - 3s 14ms/step
+Testing accuracy of the classifier :  0.67
+nn granted loans 182.0
+(800, 48) (800,)
+Epoch 1/7
+800/800 [==============================] - 6s 8ms/step - loss: 11.1796 - acc: 0.2988
+Epoch 2/7
+800/800 [==============================] - 0s 119us/step - loss: 11.1796 - acc: 0.2988
+Epoch 3/7
+800/800 [==============================] - 0s 121us/step - loss: 11.1796 - acc: 0.2988
+Epoch 4/7
+800/800 [==============================] - 0s 140us/step - loss: 11.1796 - acc: 0.2988
+Epoch 5/7
+800/800 [==============================] - 0s 149us/step - loss: 11.1796 - acc: 0.2988
+Epoch 6/7
+800/800 [==============================] - 0s 127us/step - loss: 11.1796 - acc: 0.2988
+Epoch 7/7
+800/800 [==============================] - 0s 127us/step - loss: 11.1796 - acc: 0.2988
+200/200 [==============================] - 3s 13ms/step
+Testing accuracy of the classifier :  0.305
+nn granted loans 0.0
+utility per tests on nn, avg 883644, std 529165
+-- Running banker: deterministic
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+deterministic granted loans 200.0
+utility per tests on granting always, avg 1159844, std 266420
+-- Running banker: deterministic
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+deterministic granted loans 0.0
+utility per tests on not granting always, avg 0, std 0
+luca@lucas-MacBook-Pro-2 project-1 % 
+

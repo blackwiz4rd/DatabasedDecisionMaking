@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 # select best model
 from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 class ProjectBanker:
 
@@ -19,7 +19,7 @@ class ProjectBanker:
         # X_some_features = X_temp[rescale_features]
 
         if fit:
-            self.scaler = StandardScaler()
+            self.scaler = MinMaxScaler()
             X_some_features = self.scaler.fit_transform(X_temp)
         else:
             self.scaler.transform(X_temp)
@@ -120,6 +120,7 @@ class ProjectBanker:
         utility_1 = self.expected_utility(x, actions[1])
         # grant about accuracy/100*200 = 150 -> error estimate
         # most of the measures are below 20 000
-        if utility_1 - utility_0 > 1500:
+        threshold = 1500
+        if utility_1 - utility_0 > 0:
             return actions[1]
         return actions[0]
