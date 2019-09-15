@@ -108,8 +108,9 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            gain = amount_of_loan * (pow(1 + self.rate, length_of_loan)) * (1 - self.predict_proba(x))
-            loss = amount_of_loan * self.predict_proba(x)
+            proba = self.predict_proba(x)
+            gain = amount_of_loan * (pow(1 + self.rate, length_of_loan)) * (1 - proba)
+            loss = amount_of_loan * proba
             return gain - loss
 
         return 0
@@ -124,7 +125,7 @@ class ProjectBanker:
         actions = [0, 1]
         utility_0 = self.expected_utility(x, actions[0])
         utility_1 = self.expected_utility(x, actions[1])
-        threshold = 1500
+        threshold = 500
         if utility_1 - utility_0 > threshold:
             return actions[1]
 

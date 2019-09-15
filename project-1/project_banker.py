@@ -10,8 +10,8 @@ class ProjectBanker:
 
     def __init__(self):
         self.name = 'forest'
-        self.best_max_depth = None
-        # self.best_max_depth = 10
+        # self.best_max_depth = None
+        self.best_max_depth = 10
 
     def preprocessing(self, X, fit=False):
         X_temp = X.copy()
@@ -34,8 +34,12 @@ class ProjectBanker:
     This function uses a random forest classifier to predict new probabilities
     """
     def fit(self, X, y):
-        X_scaled = self.preprocessing(X)
-        self.clf = RandomForestClassifier(n_estimators=100,  random_state=0, max_depth=self.best_max_depth) # storing classifier
+        if self.best_max_depth == None:
+            X_scaled = self.preprocessing(X)
+        else:
+            X_scaled = self.preprocessing(X,fit=True)
+
+        self.clf = RandomForestClassifier(n_estimators=100, random_state=0, max_depth=self.best_max_depth) # storing classifier
         self.clf.fit(X_scaled, y)
 
     """
@@ -47,7 +51,7 @@ class ProjectBanker:
             X_scaled = self.preprocessing(X, fit=True)
             depths = range(5,20)
             untrained_models = [RandomForestClassifier(n_estimators=100, max_depth=d) for d in depths]
-            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=5) for m in untrained_models]
+            fold_scores = [cross_val_score(estimator=m, X=X_scaled, y=y, cv=10) for m in untrained_models]
             mean_xv_scores = [s.mean() for s in fold_scores]
             self.best_max_depth = np.asarray(mean_xv_scores).argmax()
 
@@ -100,8 +104,9 @@ class ProjectBanker:
         amount_of_loan = x['amount']
         length_of_loan = x['duration']
         if action == 1:
-            gain = amount_of_loan * (pow(1 + self.rate, length_of_loan)) * (1 - self.predict_proba(x))
-            loss = amount_of_loan * self.predict_proba(x)
+            proba = self.predict_proba(x)
+            gain = amount_of_loan * (pow(1 + self.rate, length_of_loan)) * (1 - proba)
+            loss = amount_of_loan * proba
             return gain - loss
 
         return 0
@@ -120,7 +125,7 @@ class ProjectBanker:
         utility_1 = self.expected_utility(x, actions[1])
         # grant about accuracy/100*200 = 150 -> error estimate
         # most of the measures are below 20 000
-        threshold = 1500
-        if utility_1 - utility_0 > 0:
+        threshold = 500
+        if utility_1 - utility_0 > threshold:
             return actions[1]
         return actions[0]

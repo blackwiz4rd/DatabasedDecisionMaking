@@ -1,4 +1,5 @@
 import pandas
+import sys
 pandas.set_option('display.max_columns', None)
 
 ## Set up for dataset
@@ -67,17 +68,13 @@ interest_rate = 0.05 # r value
 # print(X[encoded_features].head())
 # print(X[target])
 
-## plot some stuff
-rate_column = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
-plt.hist(rate_column)
-plt.ylabel("count")
-plt.xlabel("gainable amount")
-plt.show()
-
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=2):
-# def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests=100):
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker):
+    if len(sys.argv) == 2:
+        n_tests = int(sys.argv[1])
+    else:
+        n_tests = 100
     utility = []
     # do this once just for the random_forest to get the best value of depth
     print("-- Running banker:", decision_maker.name)
@@ -114,7 +111,23 @@ deterministic_nogrant_utility = get_utilities(X, encoded_features, target, inter
 print("utility per tests on not granting always, avg %i, std %i" % (np.mean(deterministic_nogrant_utility), np.std(deterministic_nogrant_utility)))
 
 import matplotlib.pyplot as plt
-x = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility]
-plt.boxplot(x, labels=['random_utility', 'our_utility', 'nn_utility', 'deterministic_grant', 'deterministic_nogrant'])
-plt.ylabel("amount gained")
+utilities = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility]
+labels=['random', 'our', 'nn', 'deterministic_grant', 'deterministic_nogrant']
+
+plt.boxplot(utilities, labels=labels)
+plt.ylabel("utility")
+plt.show()
+
+for u, l in zip(utilities, labels):
+    plt.plot(range(len(u)), u, '.', label=l, alpha=0.5)
+plt.legend()
+plt.ylabel("utility")
+plt.xlabel("test number")
+plt.show()
+
+## plot some stuff
+rate_column = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
+plt.hist(rate_column)
+plt.ylabel("count")
+plt.xlabel("gainable amount")
 plt.show()
