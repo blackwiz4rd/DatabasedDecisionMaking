@@ -20,8 +20,6 @@ class ProjectBanker:
 
     def preprocessing(self, X, fit=False):
         X_temp = X.copy()
-        # rescale_features = ['age', 'duration', 'amount']
-        # X_some_features = X_temp[rescale_features]
 
         if fit:
             self.scaler = MinMaxScaler()
@@ -29,7 +27,6 @@ class ProjectBanker:
         else:
             self.scaler.transform(X_temp)
 
-        # X_temp[rescale_features] = X_some_features
         return X_temp
 
     # Fit the model to the data.  You can use any model you like to do
@@ -46,18 +43,20 @@ class ProjectBanker:
         ## nn with keras
         self.model = Sequential([
             Dense(64, input_shape=(X.shape[1],)),
-            Activation('relu'),
+            Activation('tanh'),
             Dense(32),
-            Activation('relu'),
+            Activation('tanh'),
             Dense(16),
-            Activation('relu'),
+            Activation('tanh'),
             Dense(1),
             Activation('sigmoid'),
         ])
         self.model.compile(optimizer='adam',
              loss='binary_crossentropy',
              metrics=['accuracy'])
-        self.model.fit(X_scaled, y, epochs=7)
+
+        print(model.summary())
+        self.model.fit(X_scaled, y, epochs=20)
 
     def test_accuracy(self, X, y):
         y = y - 1
