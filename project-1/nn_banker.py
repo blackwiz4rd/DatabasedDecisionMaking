@@ -6,6 +6,7 @@ import numpy.random as npr
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from sklearn.preprocessing import MinMaxScaler
+# from sklearn.utils import class_weight # assign a class weight
 
 # suppress warnings
 import warnings
@@ -36,8 +37,7 @@ class ProjectBanker:
     This function uses a neural network classifier to predict new probabilities
     """
     def fit(self, X, y):
-        print(X.shape, y.shape)
-        y = y - 1
+        y = y - 1 # 0 -> 1 good loan, 1 -> 2 bad loan
         X_scaled = self.preprocessing(X, fit=True)
 
         ## nn with keras
@@ -51,11 +51,21 @@ class ProjectBanker:
             Dense(1),
             Activation('sigmoid'),
         ])
-        self.model.compile(optimizer='adam',
-             loss='binary_crossentropy',
-             metrics=['accuracy'])
 
-        print(model.summary())
+        # class_weights = class_weight.compute_class_weight(
+        #     'balanced',
+        #     np.unique(y),
+        #     y
+        # ) # 0 -> 1 good loan, 1 -> 2 bad loan
+        class_weights = {0: 700, 1:300}
+
+        self.model.compile(
+            optimizer='adam',
+            loss='binary_crossentropy',
+            metrics=['accuracy']
+        )
+
+        # print(self.model.summary())
         self.model.fit(X_scaled, y, epochs=20)
 
     def test_accuracy(self, X, y):
