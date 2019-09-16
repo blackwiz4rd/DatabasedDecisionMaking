@@ -128,7 +128,7 @@ plt.show()
 
 ## plot some stuff
 rate_column = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
-plt.hist(rate_column)
+plt.hist(rate_column, bins=40)
 plt.ylabel("count")
 plt.xlabel("gainable amount")
 plt.show()
