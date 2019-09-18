@@ -30,7 +30,10 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
     ## Example test function - this is only an unbiased test if the data has not been seen in training
     action_results = np.array([])
     for t in range(n_test_examples):
-        action = decision_maker.get_best_action(X_test.iloc[t])
+        if decision_maker.name == "perfect":
+            action = decision_maker.get_best_action(y_test.iloc[t])
+        else:
+            action = decision_maker.get_best_action(X_test.iloc[t])
         action_results = np.append(action_results, action)
         good_loan = y_test.iloc[t] # assume the labels are correct
         # print("loan true value ", good_loan)
@@ -60,6 +63,8 @@ deterministic_grant_banker = deterministic_banker.DeterministicBanker(action=1)
 deterministic_nogrant_banker = deterministic_banker.DeterministicBanker(action=0)
 import nn_banker
 nn_banker = nn_banker.ProjectBanker()
+import perfect_banker
+perfect_banker = perfect_banker.PerfectBanker()
 
 interest_rate = 0.05 # r value
 
@@ -113,9 +118,12 @@ print("utility per tests on granting always, avg %i, std %i" % (np.mean(determin
 deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker)
 print("utility per tests on not granting always, avg %i, std %i" % (np.mean(deterministic_nogrant_utility), np.std(deterministic_nogrant_utility)))
 
+perfect_utility = get_utilities(X, encoded_features, target, interest_rate, perfect_banker)
+print("utility per tests on perfect banker, avg %i, std %i" % (np.mean(perfect_utility), np.std(perfect_utility)))
+
 import matplotlib.pyplot as plt
-utilities = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility]
-labels=['random', 'our', 'nn', 'deterministic_grant', 'deterministic_nogrant']
+utilities = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility, perfect_utility]
+labels=['rand', 'forest', 'nn', 'grant', 'nogrant', 'perfect']
 
 plt.boxplot(utilities, labels=labels)
 plt.ylabel("utility")
@@ -123,14 +131,16 @@ plt.show()
 
 for u, l in zip(utilities, labels):
     plt.plot(range(len(u)), u, '.', label=l, alpha=0.5)
+plt.yscale("log")
 plt.legend()
 plt.ylabel("utility")
 plt.xlabel("test number")
 plt.show()
 
 ## plot some stuff
-rate_column = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
-plt.hist(rate_column, bins=40)
+gainable_col = X['amount']*(pow(1 + interest_rate, X['duration']) - 1)
+gainable_col[X[target] == 2] = 0
+plt.hist(gainable_col, bins=40)
 plt.ylabel("count")
 plt.xlabel("gainable amount")
 plt.show()
