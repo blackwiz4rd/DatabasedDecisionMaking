@@ -68,7 +68,7 @@ interest_rate = 0.05 # r value
 # print(X[encoded_features].head())
 # print(X[target])
 import numpy as np
-print("tru values on dataset for: granted loans, not granted loans", np.sum(X[target]==1), np.sum(X[target]==2))
+print("true values on dataset for: granted loans, not granted loans", np.sum(X[target]==1), np.sum(X[target]==2))
 
 ### Do a number of preliminary tests by splitting the data in parts
 from sklearn.model_selection import train_test_split
