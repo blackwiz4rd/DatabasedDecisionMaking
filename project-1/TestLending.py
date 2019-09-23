@@ -1,5 +1,7 @@
 import pandas
 import sys
+from sklearn.utils import resample
+from privacy import add_privacy
 pandas.set_option('display.max_columns', None)
 
 ## Set up for dataset
@@ -18,14 +20,27 @@ X = pandas.get_dummies(df, columns=quantitative_features, drop_first=True)
 encoded_features = list(filter(lambda x: x != target, X.columns))
 
 ## Test function
-def test_decision_maker(X_test, y_test, interest_rate, decision_maker):
+def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap=False):
     n_test_examples = len(X_test)
     utility = 0
 
     ## This is to know how well the classifier is working
     ## ABOUT 70% of accuracy
     if decision_maker.name == "forest" or decision_maker.name == "nn":
-        print("Testing accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
+        # bootstrapping to test accuracy
+        if bootstrap == True:
+            n_bootstrap_samples = 1000
+            bootstrap_test_score = np.zeros(n_bootstrap_samples)
+
+            for t in range(n_bootstrap_samples):
+                bootstrap_X_test, bootstrap_y_test = resample(X_test, y_test, replace=True, n_samples = X_test.shape[0])
+                bootstrap_test_score[t] = decision_maker.test_accuracy(bootstrap_X_test, bootstrap_y_test)
+            plt.hist(bootstrap_test_score, bins=40)
+            plt.title("Bootstrapped test scores")
+            plt.show()
+            print("Bootstrap testing mean accuracy of the classifier : ", bootstrap_test_score.mean())
+
+        print("Single test accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
     action_results = np.array([])
@@ -72,6 +87,11 @@ interest_rate = 0.05 # r value
 # print(X.info())
 # print(X[encoded_features].head())
 # print(X[target])
+set_privacy = True
+if set_privacy == True:
+    X, encoded_features = add_privacy(X, encoded_features, target, interest_rate)
+
+
 import numpy as np
 print("true values on dataset for: granted loans, not granted loans", np.sum(X[target]==1), np.sum(X[target]==2))
 

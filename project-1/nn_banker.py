@@ -7,6 +7,9 @@ from keras.models import Sequential
 from keras.layers import Dense, Activation
 from sklearn.preprocessing import MinMaxScaler
 # from sklearn.utils import class_weight # assign a class weight
+# feature selection
+# from sklearn.ensemble import ExtraTreesClassifier
+# from sklearn.feature_selection import SelectFromModel
 
 # suppress warnings
 import warnings
@@ -20,6 +23,10 @@ class ProjectBanker:
         npr.seed(100)
 
     def preprocessing(self, X, fit=False):
+        # try:
+        #     X_temp = X.copy()[self.new_features]
+        # except:
+        #     X_temp = X.copy()[self.sorting_indexes]
         X_temp = X.copy()
 
         if fit:
@@ -38,11 +45,17 @@ class ProjectBanker:
     """
     def fit(self, X, y):
         y = y - 1 # 0 -> 1 good loan, 1 -> 2 bad loan
+        # feature selection
+        # clf = ExtraTreesClassifier(n_estimators=100)
+        # clf = clf.fit(X, y)
+        # self.sorting_indexes = np.argsort(clf.feature_importances_)
+        # self.new_features = [X.columns.values[i] for i in sorting_indexes][28:]
+
         X_scaled = self.preprocessing(X, fit=True)
 
         ## nn with keras
         self.model = Sequential([
-            Dense(64, input_shape=(X.shape[1],)),
+            Dense(64, input_shape=(X_scaled.shape[1],)),
             Activation('tanh'),
             Dense(32),
             Activation('tanh'),

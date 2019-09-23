@@ -11,11 +11,11 @@ class ProjectBanker:
     def __init__(self):
         self.name = 'forest'
         # best values
-        # set one at a time to None for testing the best value with cv!
-        # self.best_max_depth = None
-        self.best_max_depth = 15
-        # self.best_max_features = None
-        self.best_max_features = 35
+        # set one at a time to -1 for testing the best value with cv!
+        # self.best_max_depth = -1
+        self.best_max_depth = 10
+        self.best_max_features = None
+        # self.best_max_features = 20
 
     def preprocessing(self, X, fit=False):
         X_temp = X.copy()
@@ -35,7 +35,7 @@ class ProjectBanker:
     This function uses a random forest classifier to predict new probabilities
     """
     def fit(self, X, y):
-        if self.best_max_depth == None and self.best_max_features == None:
+        if self.best_max_depth == -1 and self.best_max_features == -1:
             X_scaled = self.preprocessing(X)
         else:
             X_scaled = self.preprocessing(X,fit=True)
@@ -56,7 +56,7 @@ class ProjectBanker:
     the test set
     """
     def set_best_max_depth(self, X, y):
-        if self.best_max_depth == None:
+        if self.best_max_depth == -1:
             X_scaled = self.preprocessing(X, fit=True)
             depths = range(5,20)
             untrained_models = [RandomForestClassifier(n_estimators=100, random_state=0, max_depth=d, max_features=self.best_max_features, class_weight="balanced") for d in depths]
@@ -70,7 +70,7 @@ class ProjectBanker:
     Function invoked to evaluate feature importance
     """
     def set_best_max_features(self, X, y):
-        if self.best_max_features == None:
+        if self.best_max_features == -1:
             X_scaled = self.preprocessing(X, fit=True)
             features = range(20,40,5)
             untrained_models = [RandomForestClassifier(n_estimators=100, random_state=0, max_depth=self.best_max_depth, max_features=f, class_weight="balanced") for f in features]
@@ -149,6 +149,6 @@ class ProjectBanker:
         utility_1 = self.expected_utility(x, actions[1])
         # grant about accuracy/100*200 = 150 -> error estimate
         # most of the measures are below 20 000
-        if utility_1 - utility_0 > 0:
+        if utility_1 > utility_0:
             return actions[1]
         return actions[0]
