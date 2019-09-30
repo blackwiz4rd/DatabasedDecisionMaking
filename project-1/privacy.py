@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
-from TestAuxiliary import dataset_setup
+from TestAuxiliary import *
 import scipy.stats as stats
 
 def set_range(X_col, step):
@@ -29,7 +29,7 @@ def select_features(X, encoded_features):
     X_new = pd.DataFrame(X_new, columns=new_features)
     return X_new, new_features
 
-def add_privacy(X, encoded_features, target, interest_rate, makePlots=False, epsilon=0.1):
+def add_privacy(X, encoded_features, target, interest_rate, makePlots=False, epsilon=0.1, local_privacy=True):
     print("----> adding privacy with epsilon ", epsilon)
     X_privacy = X.copy()
 
@@ -118,21 +118,24 @@ def add_privacy(X, encoded_features, target, interest_rate, makePlots=False, eps
         plt.show()
 
     # restore to normal
-    X_privacy['amount'] = X_privacy['central_amount']
+    X_privacy['amount'] = X_privacy['local_amount'] if local_privacy == True else X_privacy['central_amount']
     X_privacy.drop(columns=['central_amount', 'local_amount'])
 
     X_privacy['repaid'] = X['repaid']
     return X_privacy, new_features
 
+def main():
+    pd.set_option('display.max_columns', None)
 
-pd.set_option('display.max_columns', None)
+    ## Set up for dataset
+    X, encoded_features, target = dataset_setup()
 
-## Set up for dataset
-X, encoded_features, target = dataset_setup()
+    ## printing used data
+    # print(X.info())
+    # print(X[encoded_features].head())
+    # print(X[target])
+    interest_rate = 0.05
+    X_privacy, encoded_features = add_privacy(X, encoded_features, target, interest_rate)
 
-## printing used data
-# print(X.info())
-# print(X[encoded_features].head())
-# print(X[target])
-interest_rate = 0.05
-X_privacy, encoded_features = add_privacy(X, encoded_features, target, interest_rate)
+if __name__ == "__main__":
+    main()

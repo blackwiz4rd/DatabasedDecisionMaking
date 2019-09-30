@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 ## Test function
 def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap=False):
-    n_test_examples = len(X_test)
+    n_test_examples = X_test.shape[0]
     utility = 0
 
     ## This is to know how well the classifier is working
@@ -58,7 +58,8 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     for iter in range(n_tests):
         # set different privacy with epsilon on each test
         if set_privacy == True:
-            X_temp, encoded_features_temp = add_privacy(X, encoded_features, target, interest_rate, epsilon=epsilons[iter])
+            central_privacy = True
+            X_temp, encoded_features_temp = add_privacy(X, encoded_features, target, interest_rate, epsilon=epsilons[iter], local_privacy=local_privacy)
             X_train, X_test, y_train, y_test = train_test_split(X_temp[encoded_features_temp], X_temp[target], test_size=0.2, random_state=42)
         else:
             X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2, random_state=iter)
