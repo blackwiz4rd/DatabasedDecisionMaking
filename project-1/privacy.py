@@ -118,7 +118,11 @@ def add_privacy(X, encoded_features, target, interest_rate, makePlots=False, eps
         plt.show()
 
     # restore to normal
-    X_privacy['amount'] = X_privacy['local_amount'] if local_privacy == True else X_privacy['central_amount']
+    if local_privacy == True:
+        X_privacy['amount'] = X_privacy['local_amount']
+    else:
+        X_privacy['amount'] = X_privacy['central_amount']
+        
     X_privacy.drop(columns=['central_amount', 'local_amount'])
 
     X_privacy['repaid'] = X['repaid']

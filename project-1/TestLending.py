@@ -44,7 +44,7 @@ else:
 set_privacy = True
 # range from 0.1 to 100
 if set_privacy == True:
-    epsilons = np.linspace(start=0,stop=30,num=n_tests)
+    epsilons = np.linspace(start=0.1,stop=30,num=n_tests)
 
 
 print("true values on dataset for: granted loans, not granted loans", np.sum(X[target]==1), np.sum(X[target]==2))
