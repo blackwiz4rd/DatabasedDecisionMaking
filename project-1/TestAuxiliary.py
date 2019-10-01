@@ -58,7 +58,7 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     for iter in range(n_tests):
         # set different privacy with epsilon on each test
         if set_privacy == True:
-            local_privacy = True
+            local_privacy = False
             X_temp, encoded_features_temp = add_privacy(X, encoded_features, target, interest_rate, makePlots=False, epsilon=epsilons[iter], local_privacy=local_privacy)
             X_train, X_test, y_train, y_test = train_test_split(X_temp[encoded_features_temp], X_temp[target], test_size=0.2, random_state=42)
         else:
