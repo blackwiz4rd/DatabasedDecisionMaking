@@ -79,6 +79,7 @@ class ProjectBanker:
         )
 
         # print(self.model.summary())
+        # test 150
         self.model.fit(X_scaled, y, epochs=20)
 
     def test_accuracy(self, X, y):

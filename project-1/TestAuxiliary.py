@@ -45,12 +45,41 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap
             else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
 
-    print(decision_maker.name, "granted loans", np.sum(action_results))
-    return utility
+    return utility, action_results
+
+## get trained model and test data
+## do search on test data
+
+def get_test_predictions(X, encoded_features, target, interest_rate, decision_maker, set_privacy=False):
+    utility = []
+    # do this once just for the random_forest to get the best value of depth
+    print("-- Running banker:", decision_maker.name)
+
+    # set different privacy with epsilon on each test
+    if set_privacy == True:
+        local_privacy = True
+        X_temp, encoded_features_temp = add_privacy(X, encoded_features, target, interest_rate, makePlots=False, epsilon=epsilons[iter], local_privacy=local_privacy)
+        X_train, X_test, y_train, y_test = train_test_split(X_temp[encoded_features_temp], X_temp[target], test_size=0.2, random_state=42)
+    else:
+        X_train, X_test, y_train, y_test = train_test_split(X[encoded_features], X[target], test_size=0.2, random_state=42)
+    # random_state=iter is mandatory otherwise we get wrong results
+    # splitting the set would be different for each model
+
+    ## preprocessing on random forest
+    if decision_maker.name == "forest":
+        decision_maker.set_best_max_depth(X_train, y_train)
+        decision_maker.set_best_max_features(X_train, y_train)
+
+    decision_maker.set_interest_rate(interest_rate)
+    decision_maker.fit(X_train, y_train)
+    utility, a_results = test_decision_maker(X_test, y_test, interest_rate, decision_maker)
+    print(decision_maker.name, "granted loans", np.sum(a_results))
+    print("utility achieved: ", utility)
+    return X_test, y_test, a_results
 
 ### Do a number of preliminary tests by splitting the data in parts
 def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests, epsilons):
-    set_privacy = epsilons.size != 0
+    set_privacy = epsilons != None
 
     utility = []
     # do this once just for the random_forest to get the best value of depth
@@ -58,7 +87,7 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
     for iter in range(n_tests):
         # set different privacy with epsilon on each test
         if set_privacy == True:
-            local_privacy = False
+            local_privacy = True
             X_temp, encoded_features_temp = add_privacy(X, encoded_features, target, interest_rate, makePlots=False, epsilon=epsilons[iter], local_privacy=local_privacy)
             X_train, X_test, y_train, y_test = train_test_split(X_temp[encoded_features_temp], X_temp[target], test_size=0.2, random_state=42)
         else:
@@ -73,7 +102,8 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
 
         decision_maker.set_interest_rate(interest_rate)
         decision_maker.fit(X_train, y_train)
-        u = test_decision_maker(X_test, y_test, interest_rate, decision_maker)
+        u, a_results = test_decision_maker(X_test, y_test, interest_rate, decision_maker)
+        print(decision_maker.name, "granted loans", np.sum(a_results))
         print("utility achieved: ", u)
         utility.append(u)
     return utility
