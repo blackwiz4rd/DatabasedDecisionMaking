@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from privacy import add_privacy
+from fairness import test_fairness
 from sklearn.model_selection import train_test_split
 
 ## Test function
@@ -10,7 +11,7 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap
 
     ## This is to know how well the classifier is working
     ## ABOUT 70% of accuracy
-    if decision_maker.name == "forest" or decision_maker.name == "nn":
+    if decision_maker.name == "forest" or decision_maker.name == "nn" or decision_maker.name == "logistic":
         # bootstrapping to test accuracy
         if bootstrap == True:
             n_bootstrap_samples = 1000
@@ -27,10 +28,14 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap
         print("Single test accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
+    set_fairness = decision_maker.name == "forest" or decision_maker.name == "nn"
+
     action_results = np.array([])
     for t in range(n_test_examples):
         if decision_maker.name == "perfect":
             action = decision_maker.get_best_action(y_test.iloc[t])
+        elif set_fairness:
+            action = decision_maker.get_best_action(X_test.iloc[t], fair=True)
         else:
             action = decision_maker.get_best_action(X_test.iloc[t])
         action_results = np.append(action_results, action)
@@ -44,6 +49,12 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap
                 utility -= amount # number of credits lost
             else:
                 utility += amount*(pow(1 + interest_rate, duration) - 1) # number of credits gained
+
+    if set_fairness:
+        temp_action_results = action_results.copy()
+        temp_action_results[temp_action_results==0] = 2*np.ones(np.sum(temp_action_results==0))
+        test_fairness(X_test, pd.Series(temp_action_results))
+    # test_fairness(X_test, pd.Series(y_test))
 
     return utility, action_results
 

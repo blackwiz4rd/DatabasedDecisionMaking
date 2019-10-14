@@ -138,16 +138,28 @@ class ProjectBanker:
 
         return 0
 
+    def expected_fairness(self, action, sensitive):
+        p_good = np.array([0.713985, 0.428571]) # from whole dataset
+        p_bad = np.ones(p_good.size) - p_good
+        # good if action == 1 == grant
+        p = p_good if action == 1 else p_bad
+        return p[sensitive]
+
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
     """
     This function returns the best action such that the expected utility is
     maximized
     """
-    def get_best_action(self, x):
+    def get_best_action(self, x, fair=False):
         actions = [0, 1]
-        utility_0 = self.expected_utility(x, actions[0])
-        utility_1 = self.expected_utility(x, actions[1])
+        sensitive = x['credit history_A31']
+        if fair == True:
+            lam = 0.4
+        else:
+            lam = 0
+        utility_0 = (1-lam)*self.expected_utility(x, actions[0]) - lam*self.expected_fairness(actions[0], sensitive)
+        utility_1 = (1-lam)*self.expected_utility(x, actions[1]) - lam*self.expected_fairness(actions[1], sensitive)
         if utility_1 > utility_0:
             return actions[1]
 

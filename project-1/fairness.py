@@ -1,55 +1,92 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from TestAuxiliary import *
-from scipy import stats
 
-import project_banker
+def calculate_proba(X, y):
+    ef = X.columns[0]
+    target = 'repaid'
+    X[target] = y
+    target_counts = y.value_counts()
+    ef_vs_target = X[[ef, target]].groupby(ef).sum()
+    ef_vs_target['tot'] = X[ef].value_counts()
+    ef_vs_target[target] = ef_vs_target['tot'] - ef_vs_target[target]
+    # y = 0 good loan
+    ef_vs_target['prob'] = ef_vs_target[target]/ef_vs_target['tot'] # P(a|y=0,z)
+    # ef_vs_target.drop('prob',axis=1).plot.bar()
+    # plt.show()
+    # deviation from the good loans probability
+    ef_vs_target['deviation'] = np.abs(ef_vs_target['prob']-target_counts[0]/X.shape[0])
+    # if ef == "age":
+    #     plt.plot(ef_vs_target.index, ef_vs_target['prob'])
+    #     plt.show()
+
+    return ef_vs_target
+
+def test_fairness(X, y):
+    y = y - 1 # 1->0 good loan, 2->1 bad loan
+    target_counts = y.value_counts()
+    print("target counts ", target_counts)
+    print("total", X.shape[0])
+
+    all_deviations = []
+    encoded_features = X.columns
+    for ef in encoded_features:
+        ef_vs_target = calculate_proba(X[[ef]], y)
+        all_deviations.append(ef_vs_target['deviation'])
+        print(ef_vs_target.to_latex())
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.boxplot(all_deviations)
+    ax.set_xticklabels(encoded_features, rotation=90)
+    plt.show()
+
+    # plt.plot(np.unique(X['age']), all_deviations[encoded_features.index('age')])
+    # plt.show()
+
+    print(y.value_counts())
 
 def main():
     pd.set_option('display.max_columns', None)
 
-    ## Set up for dataset
     X, encoded_features, target = dataset_setup()
 
-    ## printing used data
-    # print(X.info())
-    # print(X[encoded_features].head())
-    # print(X[target])
-    # print(encoded_features)
+    print(encoded_features)
 
+    test_fairness(X[encoded_features], X[target])
 
-    # testing on a singlel model
-    decision_maker = project_banker.ProjectBanker()
-    interest_rate = 0.05
-    X_test, y_test, a_results = get_test_predictions(X, encoded_features, target, interest_rate, decision_maker, set_privacy=False)
+    corr = X.corr()
+    sns.heatmap(corr[corr>0.6])
+    plt.show()
 
-    # for i in encoded_features:
-    #     print("feature ", i, np.unique(X[i]), min(X[i]), max(X[i]))
-
-    # singles
-    print("number of singles", X_test[X_test['persons']==1].shape[0], "number of not singles", X_test[X_test['persons']==2].shape[0])
-    print("results on number of singles", a_results[X_test['persons']==1], a_results[X_test['persons']==2])
-
-    # count granted loans based on duration
-
-    #Using Pearson Correlation
-    # plt.figure(figsize=(12,10))
-    # cor = X[encoded_features].corr()
-    # cor = cor[cor>0.2]
-    # sns.heatmap(cor, cmap=plt.cm.Reds)
-    # plt.show()
+    # with pm.Model() as logistic_model:
+    #     str_encoded_features = ''
+    #     # for ef in encoded_features:
+    #         # str_encoded_features += ef + ' + '
+    #     # str_encoded_features = str_encoded_features[:-2]
+    #     str_encoded_features = 'duration + amount + installment + age'
+    #     print(str_encoded_features)
+    #     pm.glm.GLM.from_formula(target + ' ~ ' + str_encoded_features, X, family = pm.glm.families.Binomial())
+    #     trace = pm.sample(500, tune = 1000, init = 'adapt_diag')
     #
-    # sns.distplot(X['age'])
-    # plt.show()
-    #
-    # sns.jointplot(x=X["amount"], y=X["duration"]);
-    # plt.show()
-    #
-    # sns.pairplot(X[["amount", "duration"]])
-    # plt.show()
+    # az.plot_trace(trace);
+
+    # #Using Pearson Correlation
+    # # plt.figure(figsize=(12,10))
+    # # cor = X[encoded_features].corr()
+    # # cor = cor[cor>0.2]
+    # # sns.heatmap(cor, cmap=plt.cm.Reds)
+    # # plt.show()
+    # #
+    # # sns.distplot(X['age'])
+    # # plt.show()
+    # #
+    # # sns.jointplot(x=X["amount"], y=X["duration"]);
+    # # plt.show()
+    # #
+    # # sns.pairplot(X[["amount", "duration"]])
+    # # plt.show()
 
 if __name__ == "__main__":
     main()

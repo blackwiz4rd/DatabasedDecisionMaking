@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 # model for fitting dataset
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 # select best model
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import MinMaxScaler
@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 class ProjectBanker:
 
     def __init__(self):
-        self.name = 'forest'
+        self.name = 'logistic'
         # best values
         # set one at a time to -1 for testing the best value with cv!
         # self.best_max_depth = -1
@@ -40,14 +40,12 @@ class ProjectBanker:
         else:
             X_scaled = self.preprocessing(X,fit=True)
 
-        self.clf = RandomForestClassifier(
-            n_estimators=100,
-            random_state=0,
-            max_depth=self.best_max_depth,
-            max_features=self.best_max_features,
-            class_weight="balanced"
-        ) # storing classifier
+        self.clf = LogisticRegression(penalty='l2', dual=False, tol=0.0001,
+        C=1.0, fit_intercept=True, intercept_scaling=1, random_state=42,
+        solver='warn', max_iter=100)
+
         self.clf.fit(X_scaled, y)
+
         print("training score ", self.clf.score(X_scaled, y))
         # print("feature_importances_", self.clf.feature_importances_)
 
@@ -135,33 +133,20 @@ class ProjectBanker:
 
         return 0
 
-    def expected_fairness(self, action, sensitive):
-        p_good = np.array([0.713985, 0.428571]) # from whole dataset
-        p_bad = np.ones(p_good.size) - p_good
-        # good if action == 1 == grant
-        p = p_good if action == 1 else p_bad
-        return p[sensitive]
-
     # Return the best action. This is normally the one that maximises expected utility.
     # However, you are allowed to deviate from this if you can justify the reason.
     """
     This function returns the best action such that the expected utility is
     maximized
     """
-    def get_best_action(self, x, fair=False):
+    def get_best_action(self, x):
+        ## better way to calculate utility that allows to defiate from max
+        ## threshold may be set higher to avoid granting too many loans
         actions = [0, 1]
-        sensitive = x['credit history_A31']
-        if fair == True:
-            lam = 0.4
-        else:
-            lam = 0
-
-        # print("a=0 grant, not grant", (1-lam)*self.expected_utility(x, actions[0]), lam*self.expected_fairness(actions[0], sensitive))
-        # print("a=1 grant, not grant", (1-lam)*self.expected_utility(x, actions[1]), lam*self.expected_fairness(actions[1], sensitive))
-
-        utility_0 = (1-lam)*self.expected_utility(x, actions[0]) - lam*self.expected_fairness(actions[0], sensitive)
-        utility_1 = (1-lam)*self.expected_utility(x, actions[1]) - lam*self.expected_fairness(actions[1], sensitive)
+        utility_0 = self.expected_utility(x, actions[0])
+        utility_1 = self.expected_utility(x, actions[1])
+        # grant about accuracy/100*200 = 150 -> error estimate
+        # most of the measures are below 20 000
         if utility_1 > utility_0:
             return actions[1]
-
         return actions[0]
