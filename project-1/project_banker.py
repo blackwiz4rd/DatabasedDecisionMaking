@@ -148,13 +148,9 @@ class ProjectBanker:
     This function returns the best action such that the expected utility is
     maximized
     """
-    def get_best_action(self, x, fair=False):
+    def get_best_action(self, x, lam=0):
         actions = [0, 1]
         sensitive = x['credit history_A31']
-        if fair == True:
-            lam = 0.4
-        else:
-            lam = 0
 
         # print("a=0 grant, not grant", (1-lam)*self.expected_utility(x, actions[0]), lam*self.expected_fairness(actions[0], sensitive))
         # print("a=1 grant, not grant", (1-lam)*self.expected_utility(x, actions[1]), lam*self.expected_fairness(actions[1], sensitive))

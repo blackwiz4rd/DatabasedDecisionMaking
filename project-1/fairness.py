@@ -37,10 +37,10 @@ def test_fairness(X, y):
         all_deviations.append(ef_vs_target['deviation'])
         print(ef_vs_target.to_latex())
 
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.boxplot(all_deviations)
-    ax.set_xticklabels(encoded_features, rotation=90)
-    plt.show()
+    # fig, ax = plt.subplots(figsize=(10, 6))
+    # ax.boxplot(all_deviations)
+    # ax.set_xticklabels(encoded_features, rotation=90)
+    # plt.show()
 
     # plt.plot(np.unique(X['age']), all_deviations[encoded_features.index('age')])
     # plt.show()

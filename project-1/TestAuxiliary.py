@@ -5,7 +5,7 @@ from fairness import test_fairness
 from sklearn.model_selection import train_test_split
 
 ## Test function
-def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap=False):
+def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap=False, lam=None):
     n_test_examples = X_test.shape[0]
     utility = 0
 
@@ -28,14 +28,14 @@ def test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap
         print("Single test accuracy of the classifier : ", decision_maker.test_accuracy(X_test, y_test))
 
     ## Example test function - this is only an unbiased test if the data has not been seen in training
-    set_fairness = decision_maker.name == "forest" or decision_maker.name == "nn"
+    set_fairness = lam != None
 
     action_results = np.array([])
     for t in range(n_test_examples):
         if decision_maker.name == "perfect":
             action = decision_maker.get_best_action(y_test.iloc[t])
         elif set_fairness:
-            action = decision_maker.get_best_action(X_test.iloc[t], fair=True)
+            action = decision_maker.get_best_action(X_test.iloc[t], lam=lam)
         else:
             action = decision_maker.get_best_action(X_test.iloc[t])
         action_results = np.append(action_results, action)
@@ -89,8 +89,10 @@ def get_test_predictions(X, encoded_features, target, interest_rate, decision_ma
     return X_test, y_test, a_results
 
 ### Do a number of preliminary tests by splitting the data in parts
-def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests, epsilons):
-    set_privacy = epsilons != None
+def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests, epsilons, lambdas):
+    set_privacy = epsilons.size != 0
+    # set_fairness = lambdas.size != 0
+    set_fairness = decision_maker.name == "forest" or decision_maker.name == "nn"
 
     utility = []
     # do this once just for the random_forest to get the best value of depth
@@ -113,7 +115,10 @@ def get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_
 
         decision_maker.set_interest_rate(interest_rate)
         decision_maker.fit(X_train, y_train)
-        u, a_results = test_decision_maker(X_test, y_test, interest_rate, decision_maker)
+        if set_fairness:
+            u, a_results = test_decision_maker(X_test, y_test, interest_rate, decision_maker, bootstrap=False, lam=lambdas[iter])
+        else:
+            u, a_results = test_decision_maker(X_test, y_test, interest_rate, decision_maker)
         print(decision_maker.name, "granted loans", np.sum(a_results))
         print("utility achieved: ", u)
         utility.append(u)

@@ -46,29 +46,35 @@ set_privacy = False
 if set_privacy == True:
     epsilons = np.linspace(start=0.1,stop=30,num=n_tests)
 else:
-    epsilons = None
+    epsilons = np.array([])
 
+# set to true if using fairness
+set_fairness = True # works just for nn and forest
+if set_fairness == True:
+    lambdas = np.linspace(start=0, stop=1, num=n_tests)
+else:
+    lambdas = np.array([])
 
 print("true values on dataset for: granted loans, not granted loans", np.sum(X[target]==1), np.sum(X[target]==2))
 
 # utility = np.zeros(len(random_utility))
-utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests, epsilons)
+utility = get_utilities(X, encoded_features, target, interest_rate, decision_maker, n_tests, epsilons, lambdas)
 print("utility per tests with random forest, avg %i, std %i" % (np.mean(utility), np.std(utility)))
 
 # nn_utility = np.zeros(len(utility))
-nn_utility = get_utilities(X, encoded_features, target, interest_rate, nn_banker, n_tests, epsilons)
+nn_utility = get_utilities(X, encoded_features, target, interest_rate, nn_banker, n_tests, epsilons, lambdas)
 print("utility per tests on nn, avg %i, std %i" % (np.mean(nn_utility), np.std(nn_utility)))
 
-random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests, epsilons)
+random_utility = get_utilities(X, encoded_features, target, interest_rate, random_decision_maker, n_tests, epsilons, lambdas)
 print("utility per tests on random decision maker, avg %i, std %i " % (np.mean(random_utility), np.std(random_utility)))
 
-deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker, n_tests, epsilons)
+deterministic_grant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_grant_banker, n_tests, epsilons, lambdas)
 print("utility per tests on granting always, avg %i, std %i" % (np.mean(deterministic_grant_utility), np.std(deterministic_grant_utility)))
 
-deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker, n_tests, epsilons)
+deterministic_nogrant_utility = get_utilities(X, encoded_features, target, interest_rate, deterministic_nogrant_banker, n_tests, epsilons, lambdas)
 print("utility per tests on not granting always, avg %i, std %i" % (np.mean(deterministic_nogrant_utility), np.std(deterministic_nogrant_utility)))
 
-perfect_utility = get_utilities(X, encoded_features, target, interest_rate, perfect_banker, n_tests, epsilons)
+perfect_utility = get_utilities(X, encoded_features, target, interest_rate, perfect_banker, n_tests, epsilons, lambdas)
 print("utility per tests on perfect banker, avg %i, std %i" % (np.mean(perfect_utility), np.std(perfect_utility)))
 
 utilities = [random_utility, utility, nn_utility, deterministic_grant_utility, deterministic_nogrant_utility, perfect_utility]
@@ -86,6 +92,14 @@ if set_privacy == True:
 else:
     plt.boxplot(utilities, labels=labels)
     plt.ylabel("utility")
+    plt.show()
+
+if set_fairness == True:
+    for u, l in zip(utilities[1:3], labels[1:3]): # only for forest and nn
+        plt.plot(lambdas, u, label=l)
+        plt.ylabel("utility")
+        plt.xlabel("lambda")
+        plt.legend()
     plt.show()
 
 for u, l in zip(utilities, labels):
