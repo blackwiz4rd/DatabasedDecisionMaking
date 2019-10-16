@@ -10,12 +10,6 @@ class ProjectBanker:
 
     def __init__(self):
         self.name = 'logistic'
-        # best values
-        # set one at a time to -1 for testing the best value with cv!
-        # self.best_max_depth = -1
-        self.best_max_depth = 10
-        # self.best_max_features = None
-        self.best_max_features = 20
 
     def preprocessing(self, X, fit=False):
         X_temp = X.copy()
