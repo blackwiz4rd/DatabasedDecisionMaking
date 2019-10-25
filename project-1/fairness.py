@@ -8,21 +8,21 @@ from TestAuxiliary import *
 from sklearn.ensemble import RandomForestClassifier
 
 # train to predict z based on X
-def fit_sensitive(X, z):
-    self.clf = RandomForestClassifier(
-        n_estimators=100,
-        random_state=0,
-        max_depth=5,
-        # max_features=15,
-        class_weight="balanced"
-    ) # storing classifier
-    self.clf.fit(X, z)
-    print("training score ", self.clf.score(X, z))
-
-def predict_proba_sensitive(self, z):
-    z_reshaped = np.reshape(z.to_numpy(), (1, -1))
-    prediction = self.clf.predict_proba(z_reshaped)
-    return prediction[0][1]
+# def fit_sensitive(X, z):
+#     self.clf = RandomForestClassifier(
+#         n_estimators=100,
+#         random_state=0,
+#         max_depth=5,
+#         # max_features=15,
+#         class_weight="balanced"
+#     ) # storing classifier
+#     self.clf.fit(X, z)
+#     print("training score ", self.clf.score(X, z))
+#
+# def predict_proba_sensitive(self, z):
+#     z_reshaped = np.reshape(z.to_numpy(), (1, -1))
+#     prediction = self.clf.predict_proba(z_reshaped)
+#     return prediction[0][1]
 
 def calculate_proba(X, y):
     ef = X.columns[0]
