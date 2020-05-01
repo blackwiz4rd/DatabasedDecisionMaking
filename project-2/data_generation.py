@@ -28,10 +28,10 @@ class DataGenerator:
 
     def get_n_actions(self):
         return self.V.shape[0]
-    
+
     def get_n_outcomes(self):
         return 2
-    
+
     def generate_default_action(self, X):
         A = 1*(np.random.uniform() < X[128] * 0.4  + X[129] * 0.5);
         return A
@@ -47,9 +47,3 @@ class DataGenerator:
             X[t] = generate_features()
             A[t] = generate_default_action(X[t])
             Y[t] = generate_outcome(X[t], A[t])
-            
-if __name__ == '__main__':
-    n_data = 1000
-
-        
-    
